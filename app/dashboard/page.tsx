@@ -1,3 +1,4 @@
+// import getUsers from "@/api";
 import Announcement from "@/components/Announcement";
 import AvatarsGroup from "@/components/AvatarGroup";
 import Event from "@/components/Event";
@@ -5,7 +6,7 @@ import Notification from "@/components/Notification";
 import Heading from "@/constants/Heading";
 import React from "react";
 
-const Home = () => {
+export default async function Home() {
   return (
     <div className="flex h-[100%] w-[100%]">
       <div className="w-1/4">
@@ -33,6 +34,4 @@ const Home = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}

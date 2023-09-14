@@ -5,7 +5,21 @@ import { Avatar, Card, Skeleton, Switch } from "antd";
 
 const { Meta } = Card;
 
-const App: React.FC = () => {
+interface IProps {
+  name: string;
+  email: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+}
+
+const CustomCard = ({
+  name,
+  email,
+  firstName,
+  middleName,
+  lastName,
+}: IProps) => {
   const [loading, setLoading] = useState(true);
 
   const onChange = (checked: boolean) => {
@@ -30,8 +44,8 @@ const App: React.FC = () => {
               src="https://media.istockphoto.com/id/1264106976/photo/headshot-of-bearded-mid-adult-black-man-in-polo-shirt.jpg?s=170667a&w=0&k=20&c=laQvyYpXZi6wCrDjdz_G0u44Nc52coc3tl43LUhqZ28="
             />
           }
-          title="Bob The Builder"
-          description="builder@gmail.com"
+          title={name}
+          description={email}
         />
         {/* </Skeleton> */}
       </Card>
@@ -39,4 +53,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default CustomCard;
