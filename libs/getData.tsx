@@ -18,5 +18,3 @@ export async function getQuotes(url: string): Promise<allQuotes> {
 
   return res.json();
 }
-
-setInterval(getQuotes, 1000);
