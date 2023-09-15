@@ -43,7 +43,7 @@ type Kpi = {
 
 const kpiData: Kpi[] = [
   {
-    title: "Sales",
+    title: "Teachers",
     metric: "$ 12,699",
     progress: 15.9,
     target: "$ 80,000",
@@ -51,7 +51,7 @@ const kpiData: Kpi[] = [
     deltaType: "moderateIncrease",
   },
   {
-    title: "Profit",
+    title: "Students",
     metric: "$ 45,564",
     progress: 36.5,
     target: "$ 125,000",
@@ -79,69 +79,69 @@ const usNumberformatter = (number: number, decimals = 0) =>
     .toString();
 
 const formatters: { [key: string]: any } = {
-  Sales: (number: number) => `$ ${usNumberformatter(number)}`,
-  Profit: (number: number) => `$ ${usNumberformatter(number)}`,
+  Teachers: (number: number) => `$ ${usNumberformatter(number)}`,
+  Students: (number: number) => `$ ${usNumberformatter(number)}`,
   Customers: (number: number) => `${usNumberformatter(number)}`,
   Delta: (number: number) => `${usNumberformatter(number, 2)}%`,
 };
 
 const Kpis = {
-  Sales: "Sales",
-  Profit: "Profit",
+  Teachers: "Teachers",
+  Students: "Students",
   Customers: "Customers",
 };
 
-const kpiList = [Kpis.Sales, Kpis.Profit, Kpis.Customers];
+const kpiList = [Kpis.Teachers, Kpis.Students, Kpis.Customers];
 
 export type DailyPerformance = {
   date: string;
-  Sales: number;
-  Profit: number;
+  Teachers: number;
+  Students: number;
   Customers: number;
 };
 
 export const performance: DailyPerformance[] = [
   {
     date: "2023-05-01",
-    Sales: 900.73,
-    Profit: 173,
+    Teachers: 500.73,
+    Students: 173,
     Customers: 73,
   },
   {
     date: "2023-05-02",
-    Sales: 1000.74,
-    Profit: 174.6,
+    Teachers: 1000.74,
+    Students: 174.6,
     Customers: 74,
   },
   {
     date: "2023-05-03",
-    Sales: 1100.93,
-    Profit: 293.1,
+    Teachers: 700.93,
+    Students: 293.1,
     Customers: 293,
   },
   {
     date: "2023-05-04",
-    Sales: 1200.9,
-    Profit: 290.2,
+    Teachers: 1200.9,
+    Students: 290.2,
     Customers: 29,
   },
 ];
 
-export type SalesPerson = {
+export type TeachersPerson = {
   name: string;
   leads: number;
-  sales: string;
+  Teachers: string;
   quota: string;
   variance: string;
   region: string;
   status: string;
 };
 
-export const salesPeople: SalesPerson[] = [
+export const TeachersPeople: TeachersPerson[] = [
   {
     name: "Peter Doe",
     leads: 45,
-    sales: "1,000,000",
+    Teachers: "1,000,000",
     quota: "1,200,000",
     variance: "low",
     region: "Region A",
@@ -150,7 +150,7 @@ export const salesPeople: SalesPerson[] = [
   {
     name: "Lena Whitehouse",
     leads: 35,
-    sales: "900,000",
+    Teachers: "900,000",
     quota: "1,000,000",
     variance: "low",
     region: "Region B",
@@ -159,7 +159,7 @@ export const salesPeople: SalesPerson[] = [
   {
     name: "Phil Less",
     leads: 52,
-    sales: "930,000",
+    Teachers: "930,000",
     quota: "1,000,000",
     variance: "medium",
     region: "Region C",
@@ -168,7 +168,7 @@ export const salesPeople: SalesPerson[] = [
   {
     name: "John Camper",
     leads: 22,
-    sales: "390,000",
+    Teachers: "390,000",
     quota: "250,000",
     variance: "low",
     region: "Region A",
@@ -177,7 +177,7 @@ export const salesPeople: SalesPerson[] = [
   {
     name: "Max Balmoore",
     leads: 49,
-    sales: "860,000",
+    Teachers: "860,000",
     quota: "750,000",
     variance: "low",
     region: "Region B",
@@ -197,9 +197,9 @@ export default function Statistics() {
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
-  const isSalesPersonSelected = (salesPerson: SalesPerson) =>
-    (salesPerson.status === selectedStatus || selectedStatus === "all") &&
-    (selectedNames.includes(salesPerson.name) || selectedNames.length === 0);
+  const isTeachersPersonSelected = (TeachersPerson: TeachersPerson) =>
+    (TeachersPerson.status === selectedStatus || selectedStatus === "all") &&
+    (selectedNames.includes(TeachersPerson.name) || selectedNames.length === 0);
 
   const areaChartArgs = {
     className: "mt-5 h-72",
@@ -262,8 +262,8 @@ export default function Statistics() {
                         onIndexChange={setSelectedIndex}
                       >
                         <TabList color="gray" variant="solid">
-                          <Tab>Sales</Tab>
-                          <Tab>Profit</Tab>
+                          <Tab>Teachers</Tab>
+                          <Tab>Students</Tab>
                           <Tab>Customers</Tab>
                         </TabList>
                       </TabGroup>
@@ -312,9 +312,9 @@ export default function Statistics() {
                         onIndexChange={setSelectedIndex}
                       >
                         <TabList color="gray" variant="solid">
-                          <Tab>Sales</Tab>
-                          <Tab>Profit</Tab>
-                          <Tab>Customers</Tab>
+                          <Tab>Teachers</Tab>
+                          <Tab>Students</Tab>
+                          <Tab>Non Teaching Staff</Tab>
                         </TabList>
                       </TabGroup>
                     </div>
@@ -336,9 +336,9 @@ export default function Statistics() {
                     <MultiSelect
                       className="max-w-full sm:max-w-xs"
                       onValueChange={setSelectedNames}
-                      placeholder="Select Salespeople..."
+                      placeholder="Select Teacherspeople..."
                     >
-                      {salesPeople.map((item) => (
+                      {TeachersPeople.map((item) => (
                         <MultiSelectItem key={item.name} value={item.name}>
                           {item.name}
                         </MultiSelectItem>
@@ -367,7 +367,7 @@ export default function Statistics() {
                           Leads
                         </TableHeaderCell>
                         <TableHeaderCell className="text-right">
-                          Sales ($)
+                          Teachers ($)
                         </TableHeaderCell>
                         <TableHeaderCell className="text-right">
                           Quota ($)
@@ -385,36 +385,36 @@ export default function Statistics() {
                     </TableHead>
 
                     <TableBody>
-                      {salesPeople
-                        .filter((item) => isSalesPersonSelected(item))
-                        .map((item) => (
-                          <TableRow key={item.name}>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell className="text-right">
-                              {item.leads}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {item.sales}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {item.quota}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {item.variance}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {item.region}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <BadgeDelta
-                                deltaType={deltaTypes[item.status]}
-                                size="xs"
-                              >
-                                {item.status}
-                              </BadgeDelta>
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                      {TeachersPeople.filter((item) =>
+                        isTeachersPersonSelected(item)
+                      ).map((item) => (
+                        <TableRow key={item.name}>
+                          <TableCell>{item.name}</TableCell>
+                          <TableCell className="text-right">
+                            {item.leads}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.Teachers}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.quota}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.variance}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {item.region}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <BadgeDelta
+                              deltaType={deltaTypes[item.status]}
+                              size="xs"
+                            >
+                              {item.status}
+                            </BadgeDelta>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 </>

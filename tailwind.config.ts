@@ -7,7 +7,8 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
      "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // Tremor module
   ],
-  theme: {
+  theme: { transparent: "transparent",
+    current: "currentColor",
     extend: {
       // backgroundImage: {
       //   'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -40,6 +41,7 @@ const config: Config = {
           },
           content: {
             subtle: "#9ca3af", // gray-400
+          
             DEFAULT: "#6b7280", // gray-500
             emphasis: "#374151", // gray-700
             strong: "#111827", // gray-900
