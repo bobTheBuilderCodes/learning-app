@@ -1,10 +1,11 @@
-import CustomTab from "@/components/CustomTabs";
+import CustomTab from "@/shared/CustomTabs";
 import Stepback from "@/components/Stepback";
 import Heading from "@/constants/Heading";
 import Paragraph from "@/constants/Paragraph";
 import SubHeading from "@/constants/SubHeading";
 import { api } from "@/endpoints";
 import { getUser } from "@/libs/getUsers";
+import { studentTabs, studentTabsContent } from "@/libs/tabs";
 import { Avatar } from "antd";
 
 import React from "react";
@@ -15,23 +16,8 @@ interface IProps {
   };
 }
 export default async function SingleUser({ params }: IProps) {
-  const tabs = [
-    "Profile",
-    "Grades",
-    "Academic Reports",
-    "Health Information",
-    "Tickets",
-  ];
-  const tabContent = [
-    <h1 key={Math.random()}>Yeah content 1</h1>,
-    <h3 key={Math.random()}>Content 2</h3>,
-    <h5 key={Math.random()}>Last Man Standing</h5>,
-  ];
-
   const user = await getUser(api.singleStudent, params.userId);
   const currentUser = user.findStudent;
-
-  console.log("Details of user", user.findStudent);
 
   return (
     <div>
@@ -59,7 +45,9 @@ export default async function SingleUser({ params }: IProps) {
           </Paragraph>
         </div>
       </div>
-      <CustomTab labels={tabs}>{tabContent}</CustomTab>
+      <CustomTab tabLength={4} labels={studentTabs}>
+        {studentTabsContent}
+      </CustomTab>
     </div>
   );
 }

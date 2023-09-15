@@ -15,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import Link from "next/link";
-import IconButton from "@/components/IconButton";
+import IconButton from "@/shared/IconButton";
 
 const { Header, Sider, Content } = Layout;
 

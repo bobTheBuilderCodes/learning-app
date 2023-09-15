@@ -1,7 +1,7 @@
 import CustomCard from "@/components/Card";
 
 import CustomDrawer from "@/components/Drawer";
-import InputField from "@/components/InputField";
+import InputField from "@/shared/InputField";
 
 import Link from "next/link";
 

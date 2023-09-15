@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Button, ConfigProvider, Space } from "antd";
+import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,21 +16,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          // Seed Token
-          colorPrimary: "#A25800",
-          borderRadius: 8,
+    <Providers>
+      <ConfigProvider
+        theme={{
+          token: {
+            // Seed Token
+            colorPrimary: "#A25800",
+            borderRadius: 8,
 
-          // Alias Token
-          colorBgContainer: "#fff",
-        },
-      }}
-    >
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    </ConfigProvider>
+            // Alias Token
+            colorBgContainer: "#fff",
+          },
+        }}
+      >
+        <html lang="en">
+          <body className={inter.className}>{children}</body>
+        </html>
+      </ConfigProvider>
+    </Providers>
   );
 }

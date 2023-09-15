@@ -8,6 +8,7 @@ const operations = <Button>Extra Action</Button>;
 interface IProps {
   labels?: string[];
   children?: ReactElement[];
+  tabLength: number;
 }
 
 const OperationsSlot: Record<PositionType, React.ReactNode> = {
@@ -17,7 +18,7 @@ const OperationsSlot: Record<PositionType, React.ReactNode> = {
 
 type PositionType = "left" | "right";
 
-const CustomTab = ({ labels, children }: IProps) => {
+const CustomTab = ({ labels, tabLength, children }: IProps) => {
   const [position, setPosition] = useState<PositionType[]>(["left", "right"]);
 
   const slot = useMemo(() => {
@@ -29,7 +30,7 @@ const CustomTab = ({ labels, children }: IProps) => {
     );
   }, [position]);
 
-  const items = new Array(5).fill(null).map((content, i) => {
+  const items = new Array(tabLength).fill(null).map((content, i) => {
     const id = String(i + 1);
     return {
       label: `${labels?.at(i)}`,
