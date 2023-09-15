@@ -4,7 +4,7 @@ import Heading from "@/constants/Heading";
 import Paragraph from "@/constants/Paragraph";
 import SubHeading from "@/constants/SubHeading";
 import { api } from "@/endpoints";
-import { getUser } from "@/libs/getUsers";
+import { getQuotes, getUser, getUsers } from "@/libs/getData";
 import { studentTabs, studentTabsContent } from "@/libs/tabs";
 import { Avatar } from "antd";
 
@@ -18,6 +18,14 @@ interface IProps {
 export default async function SingleUser({ params }: IProps) {
   const user = await getUser(api.singleStudent, params.userId);
   const currentUser = user.findStudent;
+
+  // motivational quotes
+
+  const quotes = await getQuotes(api.motivation);
+
+  console.log("Quotes Start");
+  console.log("Quotes", quotes.slice(0, 1));
+  console.log("Quotes End");
 
   return (
     <div>
@@ -39,10 +47,7 @@ export default async function SingleUser({ params }: IProps) {
           </div>
         </div>
         <div className="mx-6 w-96 font-bold text-xl text-gray-200">
-          <Paragraph>
-            Do the best you can until you know better. Then when you know
-            better, do better. — Maya Angelou
-          </Paragraph>
+          <Paragraph>{`${quotes[0].q} - ${quotes[0].a}`}</Paragraph>
         </div>
       </div>
       <CustomTab tabLength={4} labels={studentTabs}>

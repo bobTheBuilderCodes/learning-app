@@ -6,7 +6,7 @@ import InputField from "@/shared/InputField";
 import Link from "next/link";
 
 import Stepback from "@/components/Stepback";
-import { getUser, getUsers } from "@/libs/getUsers";
+import { getUser, getUsers } from "@/libs/getData";
 import { api } from "@/endpoints";
 import Container from "@/components/Container";
 import { log } from "console";

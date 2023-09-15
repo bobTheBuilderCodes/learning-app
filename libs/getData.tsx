@@ -12,3 +12,11 @@ export async function getUser(
 
   return res.json();
 }
+
+export async function getQuotes(url: string): Promise<allQuotes> {
+  const res = await fetch(url);
+
+  return res.json();
+}
+
+setInterval(getQuotes, 1000);

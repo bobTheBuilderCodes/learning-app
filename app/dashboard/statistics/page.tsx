@@ -1,5 +1,5 @@
 import { api } from "@/endpoints";
-import { getUsers } from "@/libs/getUsers";
+import { getUsers } from "@/libs/getData";
 import React from "react";
 
 export default async function Statistics() {

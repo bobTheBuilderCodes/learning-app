@@ -68,3 +68,11 @@ type singleStudent = {findStudent: {
     "updatedAt": string
   }
 }
+
+type allQuotes = [{
+
+  q: string,
+  a: string,
+  c: string,
+  h: string
+}] 
