@@ -16,6 +16,7 @@ import {
 import { Layout, Menu, Button, theme } from "antd";
 import Link from "next/link";
 import IconButton from "@/shared/IconButton";
+import Avatars from "@/components/Avatars";
 
 const { Header, Sider, Content } = Layout;
 
@@ -83,7 +84,12 @@ const DashboardLayout = ({ children }: IProps) => {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -92,9 +98,12 @@ const DashboardLayout = ({ children }: IProps) => {
               fontSize: "16px",
               width: 64,
               height: 64,
+              flex: 1,
+              // marginRight: "auto",
             }}
           />
           {/* her */}
+          <Avatars />
         </Header>
         <Content
           style={{

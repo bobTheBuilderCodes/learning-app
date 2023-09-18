@@ -22,6 +22,8 @@ export default async function SingleUser({ params }: IProps) {
   // motivational quotes
 
   const quotes = await getQuotes(api.motivation);
+  const currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  console.log("Current quote", currentQuote);
 
   console.log("Quotes Start");
   console.log("Quotes", quotes.slice(0, 1));
@@ -47,7 +49,7 @@ export default async function SingleUser({ params }: IProps) {
           </div>
         </div>
         <div className="mx-6 w-96 font-bold text-xl text-gray-200">
-          <Paragraph>{`${quotes[0].q} - ${quotes[0].a}`}</Paragraph>
+          <Paragraph>{`${currentQuote.q} - ${currentQuote.a}`}</Paragraph>
         </div>
       </div>
       <CustomTab tabLength={4} labels={studentTabs}>
