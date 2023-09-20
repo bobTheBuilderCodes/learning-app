@@ -1,7 +1,7 @@
 type allStudents = {
   "students": [
     {
-      "rollId": string,
+      "rollId":string
       "username": string,
       "firstName": string,
       "lastName": string,
@@ -76,3 +76,61 @@ type allQuotes = [{
   c: string,
   h: string
 }] 
+
+type createStudent = {
+  "username": string,
+  "firstName": string,
+  "lastName": string,
+  "middleName": string,
+  "email": string,
+  "password": string,
+  "dateOfBirth": string,
+  "contact": string,
+  "address": {
+    "GPS": string,
+    "location": string
+  },
+  "gender": {},
+  "schoolClass": [
+    {
+      "classType": {},
+      "schoolClass": {},
+      "studentId": string,
+      "teacherId": string
+    }
+  ],
+  "teacher": [
+    {
+      "studentId": string,
+      "teacherId": string
+    }
+  ],
+  "admissionDate": string,
+  "religion": string,
+  "nationality": string,
+  "guardianName": string,
+  "relationsToGuardian": string,
+  "medicalConditions": string,
+  "allergies": string,
+  "photo": string,
+  "previousSchool": string,
+  "academicRecords": [
+    {
+      "academicYear": string,
+      "term": {},
+      "courseCode": string,
+      "courseName": string,
+      "teacherId": string,
+      "studentId": string,
+      "grades": string,
+      "studentPosition": string,
+      "teacherComments": [
+        string
+      ],
+      "recommendations": string
+    }
+  ],
+  "status": {},
+  "emergencyContact": string,
+  "emergencyContactName": string
+}
