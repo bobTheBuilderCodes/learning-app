@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import CustomCard from "@/components/Card";
 
@@ -14,23 +14,7 @@ import Container from "@/components/Container";
 import { log } from "console";
 
 export default async function Students() {
-  const payload = {
-    username: "Yaw Berko",
-    firstName: "Yaw",
-    lastName: "Berko",
-    email: "yaw.berko@gmail.com",
-    password: "yaw@123",
-    gender: "MALE",
-    dateOfBirth: "2009-09-07",
-    admissionDate: "2019-09-07",
-    guardianName: "James Morgan",
-  };
   const users = await getUsers(api.allStudents);
-
-  const createUser = async () => {
-    const students = await createUsers(api.createStudent, payload);
-    return students;
-  };
 
   return (
     <>
@@ -57,7 +41,6 @@ export default async function Students() {
             />
           </Link>
         ))}
-        <button onClick={() => createUser()}>Create Student</button>
       </div>
     </>
   );
