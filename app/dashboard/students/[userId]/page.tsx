@@ -23,11 +23,6 @@ export default async function SingleUser({ params }: IProps) {
 
   const quotes = await getQuotes(api.motivation);
   const currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
-  console.log("Current quote", currentQuote);
-
-  console.log("Quotes Start");
-  console.log("Quotes", quotes.slice(0, 1));
-  console.log("Quotes End");
 
   return (
     <div>
