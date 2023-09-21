@@ -5,6 +5,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import Heading from "@/constants/Heading";
 
 import { useRouter } from "next/navigation";
+import SubHeading from "@/constants/SubHeading";
 
 interface IProps {
   children?: ReactNode;
@@ -19,7 +20,7 @@ const Stepback = ({ children }: IProps) => {
         onClick={() => router.back()}
       />
 
-      <Heading>{children}</Heading>
+      <SubHeading>{children}</SubHeading>
     </div>
   );
 };

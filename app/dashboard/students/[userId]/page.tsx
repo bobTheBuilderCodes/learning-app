@@ -3,9 +3,9 @@ import Stepback from "@/components/Stepback";
 import Heading from "@/constants/Heading";
 import Paragraph from "@/constants/Paragraph";
 import SubHeading from "@/constants/SubHeading";
-import { api } from "@/endpoints";
+import { api } from "@/libs/endpoints";
 import { getQuotes, getUser, getUsers } from "@/libs/getData";
-import { studentTabs, studentTabsContent } from "@/libs/tabs";
+import { studentTabs, studentTabsContent } from "@/shared/tabs";
 import { Avatar } from "antd";
 
 import React from "react";
@@ -24,6 +24,10 @@ export default async function SingleUser({ params }: IProps) {
   const quotes = await getQuotes(api.motivation);
   const currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
+  const handleEvent = () => {
+    alert("I hope this shit works well");
+  };
+
   return (
     <div>
       <div className="bg-gradient-to-r from-gray-100 to-gray-500 h-48 flex items-center justify-between px-4">
@@ -35,10 +39,10 @@ export default async function SingleUser({ params }: IProps) {
               src="https://media.istockphoto.com/id/1264106976/photo/headshot-of-bearded-mid-adult-black-man-in-polo-shirt.jpg?s=170667a&w=0&k=20&c=laQvyYpXZi6wCrDjdz_G0u44Nc52coc3tl43LUhqZ28="
             />
             <div>
-              <SubHeading>{`${currentUser.firstName} ${
+              <SubHeading className="font-bold">{`${currentUser.firstName} ${
                 currentUser.middleName || ""
               } ${currentUser.lastName}`}</SubHeading>
-              <Heading>J.H.S 2</Heading>
+              <SubHeading>J.H.S 2</SubHeading>
               <caption>{currentUser.email}</caption>
             </div>
           </div>
@@ -52,4 +56,13 @@ export default async function SingleUser({ params }: IProps) {
       </CustomTab>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const users: Promise<allStudents> = getUsers(api.allStudents);
+  const { students } = await users;
+
+  return students.map((student) => ({
+    studentId: student.rollId.toString(),
+  }));
 }
