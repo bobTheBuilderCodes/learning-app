@@ -9,9 +9,11 @@ import Link from "next/link";
 
 import Stepback from "@/components/Stepback";
 import { createUsers, getUser, getUsers } from "@/libs/getData";
-import { api } from "@/endpoints";
+import { api } from "@/libs/endpoints";
 import Container from "@/components/Container";
 import { log } from "console";
+import Heading from "@/constants/Heading";
+import SubHeading from "@/constants/SubHeading";
 
 export default async function Students() {
   const users = await getUsers(api.allStudents);
@@ -19,7 +21,7 @@ export default async function Students() {
   return (
     <>
       <Container>
-        <Stepback>All Students</Stepback>
+        <SubHeading className="">All Students</SubHeading>
         <div className="flex ">
           <InputField
             placeholder="Search students by name"

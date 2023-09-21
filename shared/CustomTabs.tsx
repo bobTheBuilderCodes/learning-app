@@ -3,12 +3,11 @@
 import React, { ReactElement, useMemo, useState } from "react";
 import { Button, Tabs } from "antd";
 
-const operations = <Button>Extra Action</Button>;
-
 interface IProps {
   labels?: string[];
   children?: ReactElement[];
   tabLength: number;
+  // eventHandler: () => void;
 }
 
 const OperationsSlot: Record<PositionType, React.ReactNode> = {
@@ -20,6 +19,8 @@ type PositionType = "left" | "right";
 
 const CustomTab = ({ labels, tabLength, children }: IProps) => {
   const [position, setPosition] = useState<PositionType[]>(["left", "right"]);
+
+  const operations = <Button>Extra Action</Button>;
 
   const slot = useMemo(() => {
     if (position.length === 0) return null;
