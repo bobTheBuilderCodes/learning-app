@@ -58,11 +58,11 @@ export default async function SingleUser({ params }: IProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const users: Promise<allStudents> = getUsers(api.allStudents);
-  const { students } = await users;
+// export async function generateStaticParams() {
+//   const users: Promise<allStudents> = getUsers(api.allStudents);
+//   const { students } = await users;
 
-  return students.map((student) => ({
-    studentId: student.rollId.toString(),
-  }));
-}
+//   return students.map((student) => ({
+//     studentId: student.rollId.toString(),
+//   }));
+// }
