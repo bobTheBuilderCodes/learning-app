@@ -17,6 +17,7 @@ import { Layout, Menu, Button, theme } from "antd";
 import Link from "next/link";
 import IconButton from "@/shared/IconButton";
 import Avatars from "@/components/Avatars";
+import { useSession } from "next-auth/react";
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,10 +26,58 @@ interface IProps {
 }
 
 const DashboardLayout = ({ children }: IProps) => {
+  const { data: session } = useSession();
+  const role = session?.user.userRole;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  // Access Roles
+  const navItems = [
+    role === "STUDENT"
+      ? ""
+      : {
+          key: "1",
+          icon: <HomeOutlined />,
+          label: <Link href="/dashboard">Home</Link>,
+        },
+    {
+      key: "2",
+      icon: <DashboardOutlined />,
+      label: <Link href="/dashboard/statistics">Dashboard</Link>,
+    },
+    {
+      key: "3",
+      icon: <UserOutlined />,
+      label: <Link href="/dashboard/students">Students</Link>,
+    },
+    {
+      key: "4",
+      icon: <UsergroupAddOutlined />,
+      label: <Link href="/dashboard/teachers">Teachers</Link>,
+    },
+    {
+      key: "5",
+      icon: <ManOutlined />,
+      label: <Link href="/dashboard/parents">Parents</Link>,
+    },
+    {
+      key: "6",
+      icon: <ManOutlined />,
+      label: <Link href="/dashboard/e-library">E-Library</Link>,
+    },
+    {
+      key: "7",
+      icon: <BookOutlined />,
+      label: <Link href="/dashboard/competitions">Competitions</Link>,
+    },
+    {
+      key: "8",
+      icon: <SettingOutlined />,
+      label: <Link href="/dashboard/configuration">Configuration</Link>,
+    },
+  ];
 
   return (
     <Layout className="min-h-screen">
