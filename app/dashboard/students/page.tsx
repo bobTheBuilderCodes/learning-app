@@ -20,30 +20,30 @@ export default async function Students() {
 
   return (
     <>
-      <Container>
+      <Container className="mt-8">
         <SubHeading className="">All Students</SubHeading>
-        <div className="flex ">
+        <div className="flex w-[35%] justify-between">
           <InputField
             placeholder="Search students by name"
-            className={"whiteLabelInput mr-24"}
+            className={"whiteLabelInput w-[230px]"}
           />
 
-          <CustomDrawer buttonContent="Add New Student" className="ml-4" />
+          <CustomDrawer buttonContent="Add New Student" className="" />
         </div>
       </Container>
 
-      <div className="flex flex-wrap justify-between  m-4">
-        {users.students?.map((user: any) => (
-          <Link href={`/dashboard/students/${user?.rollId}`} key={user.rollId}>
-            <CustomCard
-              name={`${user.firstName} ${user.middleName || ""} ${
-                user.lastName
-              }`}
-              email={user.email}
-            />
-          </Link>
-        ))}
-      </div>
+      <Container className="">
+        {users.students?.map(
+          ({ rollId, firstName, middleName, lastName, email }) => (
+            <Link href={`/dashboard/students/${rollId}`} key={rollId}>
+              <CustomCard
+                name={`${firstName} ${middleName || ""} ${lastName}`}
+                email={email}
+              />
+            </Link>
+          )
+        )}
+      </Container>
     </>
   );
 }
