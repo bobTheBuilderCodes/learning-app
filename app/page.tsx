@@ -15,6 +15,7 @@ type RequiredMark = boolean | "optional";
 export default function Home() {
   const [form] = Form.useForm();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [error, setError] = useState(false);
 
   const toggleSwitch = (checked: boolean) => {
     console.log(`switch to ${checked}`);
@@ -24,8 +25,7 @@ export default function Home() {
 
   const { email, password } = formData;
 
-  const status = !email || !password;
-  // status && setIsDisabled(true);
+  const validation = !email || !password;
 
   const onFinish = async () => {
     await signIn("credentials", {
@@ -39,15 +39,21 @@ export default function Home() {
 
   const session = useSession();
   const router = useRouter();
+  const { status } = useSession();
 
   useEffect(() => {
-    if (session.data?.user) {
+    console.log("Status", status);
+    if (session.data?.user.userRole) {
       router.push("/dashboard");
+      setError(false);
     } else {
       router.push("/");
+      alert("Invalid credentials. Try again");
+      // setError(true);
       // throw new Error("Unable to log in with credentials");
     }
-  }, [session.data?.user, router]);
+    console.log("Status 2", status);
+  }, [session.data?.user, router, status]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -71,6 +77,7 @@ export default function Home() {
           value={email}
           onChange={onChange}
           style={{ color: "white !important" }}
+          // className={`${error ? "error_message" : ""} `}
         />
         <InputField
           label="Password"
@@ -89,7 +96,7 @@ export default function Home() {
           disabled={!email.trim() || !password.trim() ? true : false}
           onClick={onFinish}
         >
-          Log in
+          {status === "loading" ? "Loading..." : "Log in"}
         </CustomButton>
       </Form>
     </main>
