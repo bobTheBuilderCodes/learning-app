@@ -48,7 +48,7 @@ export default function Home() {
       setError(false);
     } else {
       router.push("/");
-      alert("Invalid credentials. Try again");
+      // alert("Invalid credentials. Try again");
       // setError(true);
       // throw new Error("Unable to log in with credentials");
     }
@@ -68,7 +68,7 @@ export default function Home() {
         className="h-full p-8 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 
 "
       >
-        <Heading className="text-white text-center">Log in 🚀</Heading>
+        <Heading className="text-white text-center">Log in! 🚀</Heading>
 
         <InputField
           label="Username / Email"
