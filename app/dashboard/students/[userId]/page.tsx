@@ -17,12 +17,13 @@ interface IProps {
 }
 export default async function SingleUser({ params }: IProps) {
   const user = await getUser(api.singleStudent, params.userId);
-  const currentUser = user.findStudent;
+  const { firstName, middleName, lastName, email } = user.findStudent;
 
   // motivational quotes
 
   const quotes = await getQuotes(api.motivation);
-  const currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
+  const { q: quote, a: author } =
+    quotes[Math.floor(Math.random() * quotes.length)];
 
   const handleEvent = () => {
     alert("I hope this shit works well");
@@ -39,16 +40,16 @@ export default async function SingleUser({ params }: IProps) {
               src="https://media.istockphoto.com/id/1264106976/photo/headshot-of-bearded-mid-adult-black-man-in-polo-shirt.jpg?s=170667a&w=0&k=20&c=laQvyYpXZi6wCrDjdz_G0u44Nc52coc3tl43LUhqZ28="
             />
             <div>
-              <SubHeading className="font-bold">{`${currentUser.firstName} ${
-                currentUser.middleName || ""
-              } ${currentUser.lastName}`}</SubHeading>
+              <SubHeading className="font-bold">{`${firstName} ${
+                middleName || ""
+              } ${lastName}`}</SubHeading>
               <SubHeading>J.H.S 2</SubHeading>
-              <caption>{currentUser.email}</caption>
+              <caption>{email}</caption>
             </div>
           </div>
         </div>
         <div className="mx-6 w-96 font-bold text-xl text-gray-200">
-          <Paragraph>{`${currentQuote.q} - ${currentQuote.a}`}</Paragraph>
+          <Paragraph>{`${quote} - ${author}`}</Paragraph>
         </div>
       </div>
       <CustomTab tabLength={4} labels={studentTabs}>

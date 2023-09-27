@@ -14,26 +14,24 @@ type RequiredMark = boolean | "optional";
 
 export default function Home() {
   const [form] = Form.useForm();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const toggleSwitch = (checked: boolean) => {
     console.log(`switch to ${checked}`);
-  };
-
-  const mainStyles = {
-    backgroundImage: `url("https://images.unsplash.com/photo-1497864149936-d3163f0c0f4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
   };
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const { email, password } = formData;
 
+  const status = !email || !password;
+  // status && setIsDisabled(true);
+
   const onFinish = async () => {
     await signIn("credentials", {
       email,
       password,
-      redirect: true,
+      redirect: false,
       callbackUrl: "/dashboard",
     });
     console.log(email, password);
@@ -45,6 +43,9 @@ export default function Home() {
   useEffect(() => {
     if (session.data?.user) {
       router.push("/dashboard");
+    } else {
+      router.push("/");
+      // throw new Error("Unable to log in with credentials");
     }
   }, [session.data?.user, router]);
 
@@ -53,10 +54,7 @@ export default function Home() {
   };
 
   return (
-    <main
-      style={mainStyles}
-      className="flex min-h-screen flex-col items-center justify-center p-24"
-    >
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
       <Form
         onFinish={onFinish}
         form={form}
@@ -87,7 +85,12 @@ export default function Home() {
           <Link href={"/forgot-password"}> Forgot password</Link>
         </Button>
         <br />
-        <CustomButton onClick={onFinish}>Log in</CustomButton>
+        <CustomButton
+          disabled={!email.trim() || !password.trim() ? true : false}
+          onClick={onFinish}
+        >
+          Log in
+        </CustomButton>
       </Form>
     </main>
   );
