@@ -25,7 +25,7 @@ export default function RootLayout({
             borderRadius: 8,
 
             // Alias Token
-            colorBgContainer: "#fff",
+            colorBgContainer: "#FFF",
           },
         }}
       >

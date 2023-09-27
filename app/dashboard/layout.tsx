@@ -135,31 +135,37 @@ const DashboardLayout = ({ children }: IProps) => {
       <Layout>
         <Header
           style={{
+            display: "flex",
+            justifyContent: "space-between", // Align items horizontally
+            alignItems: "center", // Align items vertically
             padding: 0,
             background: colorBgContainer,
           }}
         >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-              flex: 1,
-              // marginRight: "auto",
-            }}
-          />
-          {/* her */}
-          <Avatars />
+          <div>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                fontSize: "16px",
+                width: 64,
+                height: 64,
+                flex: 1,
+                // marginRight: "auto",
+              }}
+            />
+          </div>
+          <div>
+            <Avatars />
+          </div>
         </Header>
         <Content
           style={{
             margin: "0x 16px",
             padding: 0,
             minHeight: 280,
-            background: colorBgContainer,
+            // background: colorBgContainer,
           }}
         >
           {children}
