@@ -17,17 +17,8 @@ export default function Home() {
     console.log(`switch to ${checked}`);
   };
 
-  const mainStyles = {
-    backgroundImage: `url("https://images.unsplash.com/photo-1497864149936-d3163f0c0f4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  };
-
   return (
-    <main
-      style={mainStyles}
-      className="flex min-h-screen flex-col items-center justify-center p-24"
-    >
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
       <Form
         form={form}
         layout="vertical"

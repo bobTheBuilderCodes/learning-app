@@ -1,42 +1,97 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import React, { useState } from "react";
+import CustomButton from "@/shared/CustomButton";
+import InputField from "@/shared/InputField";
+import Heading from "@/constants/Heading";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Radio, Switch } from "antd";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+type RequiredMark = boolean | "optional";
 
-  // const onSubmit = () => {
-  //   signIn("credentials", {
-  //     username,
-  //     password,
-  //   });
-  // };
+export default function Home() {
+  const [form] = Form.useForm();
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const toggleSwitch = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+  };
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const { email, password } = formData;
+
+  const status = !email || !password;
+  // status && setIsDisabled(true);
+
+  const onFinish = async () => {
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      callbackUrl: "/dashboard",
+    });
+    console.log(email, password);
+  };
+
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+      // throw new Error("Unable to log in with credentials");
+    }
+  }, [session.data?.user, router]);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div
-      className={
-        "flex flex-col justify-center items-center  h-screen bg-gradient-to-br gap-1 from-cyan-300 to-sky-600"
-      }
-    >
-      <form action="">
-        <div className="px-7 py-4 shadow bg-white rounded-md flex flex-col gap-2">
-          <input
-            placeholder="User Name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            placeholder="Password"
-            type={"password"}
-            value={password}
-            onChange={(e) => e.target.value}
-          />
-          <button type="submit">Login</button>
-        </div>
-      </form>
-    </div>
-  );
-};
+    <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
+      <Form
+        onFinish={onFinish}
+        form={form}
+        layout="vertical"
+        className="h-full p-8 bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 
+"
+      >
+        <Heading className="text-white text-center">Log in 🚀</Heading>
 
-export default LoginPage;
+        <InputField
+          label="Username / Email"
+          name="email"
+          placeholder="Enter your username / email"
+          value={email}
+          onChange={onChange}
+          style={{ color: "white !important" }}
+        />
+        <InputField
+          label="Password"
+          name="password"
+          placeholder="Enter your password"
+          style={{ color: "white !important" }}
+          value={password}
+          onChange={onChange}
+        />
+
+        <Button type="link" className="w-[400px] text-right mb-4">
+          <Link href={"/forgot-password"}> Forgot password</Link>
+        </Button>
+        <br />
+        <CustomButton
+          disabled={!email.trim() || !password.trim() ? true : false}
+          onClick={onFinish}
+        >
+          Log in
+        </CustomButton>
+      </Form>
+    </main>
+  );
+}

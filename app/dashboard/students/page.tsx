@@ -34,7 +34,7 @@ export default async function Students() {
 
       <div className="flex flex-wrap justify-between  m-4">
         {users.students?.map((user: any) => (
-          <Link href={`/dashboard/students/${user.rollId}`} key={user.rollId}>
+          <Link href={`/dashboard/students/${user?.rollId}`} key={user.rollId}>
             <CustomCard
               name={`${user.firstName} ${user.middleName || ""} ${
                 user.lastName
