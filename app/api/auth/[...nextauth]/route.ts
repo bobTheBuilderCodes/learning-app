@@ -40,6 +40,7 @@ const handler = NextAuth({
       },
     }),
   ],
+  secret: process.env.VERCEL,
   pages: {
     signIn: '/',
     // error: 'auth/error'
