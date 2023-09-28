@@ -31,7 +31,7 @@ export default function Home() {
     await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirect: true,
       callbackUrl: "/dashboard",
     });
     console.log(email, password);
