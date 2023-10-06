@@ -1,7 +1,8 @@
+const baseUrl = "https://schoolsphere-backend.onrender.com";
 export const api = {
-  allStudents: "https://schoolsphere-backend.onrender.com/students/allStudents",
-  singleStudent: "https://schoolsphere-backend.onrender.com/students/",
-  loginStudent: "https://schoolsphere-backend.onrender.com/auth/loginStudent",
-  createStudent: "https://schoolsphere-backend.onrender.com/auth/createStudent",
+  allStudents: `${baseUrl}/students/allStudents`,
+  singleStudent: `${baseUrl}/students/`,
+  loginStudent: `${baseUrl}/auth/loginStudent`,
+  createStudent: `${baseUrl}/auth/createStudent`,
   motivation: "https://zenquotes.io/api/quotes/",
 };
