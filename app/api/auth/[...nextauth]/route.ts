@@ -1,26 +1,23 @@
-
 import { api } from "@/libs/endpoints";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      
       name: "Credentials",
-      
+
       credentials: {
-        email: { label: "email", type: "text", placeholder: "jsmith" },
+        username: { label: "email", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-       
-        const res = await fetch(api.loginStudent , {
+        const res = await fetch(api.loginStudent, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: credentials?.email,
+            username: credentials?.username,
             password: credentials?.password,
           }),
         });
@@ -28,49 +25,34 @@ const handler = NextAuth({
         const user = await res.json();
 
         if (user) {
-          
-          console.log("Logged in user", user)
+          console.log("Logged in user", user);
           return user;
         } else {
-        
           return null;
-
-          
         }
       },
     }),
   ],
   secret: process.env.VERCEL,
   pages: {
-    signIn: '/',
+    signIn: "/",
     // error: 'auth/error'
   },
   callbacks: {
-    async jwt({ token, user,  }) {
-        
+    async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    
-    
+
     async session({ session, token }) {
-      if(token){
-session.user.rollId = token.rollId
-session.user.loggedInUser = token.loggedInUser
-session.user.userRole  = token.userRole
-      } 
-     
-       
+      if (token) {
+        session.user.rollId = token.rollId;
+        session.user.loggedInUser = token.loggedInUser;
+        session.user.userRole = token.userRole;
+        // session.user.class = token.cla
+      }
+
       return session;
     },
-    // async session({ session, token }) {
-    //   session.user = token as any;   
-     
-       
-    //   return session;
-    // },
-    
-    
-  
   },
 });
 

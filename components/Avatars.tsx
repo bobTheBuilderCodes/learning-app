@@ -39,6 +39,7 @@ const Avatars = () => {
       <SubHeading>Welcome, {session.data?.user.loggedInUser}</SubHeading>
       <Dropdown
         overlay={menu}
+        // menu={menu}
         trigger={["click"]}
         open={dropdownVisible}
         onOpenChange={(visible) => setDropdownVisible(visible)}
@@ -52,7 +53,7 @@ const Avatars = () => {
             size={32}
             src={
               session.data?.user?.image ||
-              session.data?.user.loggedInUser.slice(0, 2)
+              session.data?.user?.loggedInUser?.slice(0, 2)
             }
             alt="User Avatar"
             className="mr-8 ml-4"

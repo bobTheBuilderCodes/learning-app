@@ -25,10 +25,6 @@ export default async function SingleUser({ params }: IProps) {
   const { q: quote, a: author } =
     quotes[Math.floor(Math.random() * quotes.length)];
 
-  const handleEvent = () => {
-    alert("I hope this shit works well");
-  };
-
   return (
     <div>
       <div className="bg-gradient-to-r from-gray-100 to-gray-500 h-48 flex items-center justify-between px-4">
@@ -58,12 +54,3 @@ export default async function SingleUser({ params }: IProps) {
     </div>
   );
 }
-
-// export async function generateStaticParams() {
-//   const users: Promise<allStudents> = getUsers(api.allStudents);
-//   const { students } = await users;
-
-//   return students.map((student) => ({
-//     studentId: student.rollId.toString(),
-//   }));
-// }

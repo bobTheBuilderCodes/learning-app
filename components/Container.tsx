@@ -6,7 +6,9 @@ interface IProps {
 }
 const Container = ({ children, className }: IProps) => {
   return (
-    <div className={`flex items-center justify-between mx-4 ${className}`}>
+    <div
+      className={`flex items-center flex-wrap justify-between mx-4 ${className}`}
+    >
       {children}
     </div>
   );
