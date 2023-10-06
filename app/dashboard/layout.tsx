@@ -33,6 +33,8 @@ const DashboardLayout = ({ children }: IProps) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  // const permission = role === 'student' ?
+
   // Access Roles
   const navItems = [
     role === "STUDENT"
@@ -55,7 +57,11 @@ const DashboardLayout = ({ children }: IProps) => {
     {
       key: "4",
       icon: <UsergroupAddOutlined />,
-      label: <Link href="/dashboard/teachers">Teachers</Link>,
+      label: (
+        <Link className="invisible text-green-300" href="/dashboard/teachers">
+          Teachers
+        </Link>
+      ),
     },
     {
       key: "5",
@@ -164,7 +170,7 @@ const DashboardLayout = ({ children }: IProps) => {
           style={{
             margin: "0x 16px",
             padding: 0,
-            minHeight: 280,
+            // minHeight: 280,
             // background: colorBgContainer,
           }}
         >

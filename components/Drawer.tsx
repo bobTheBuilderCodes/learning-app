@@ -1,7 +1,9 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect, ChangeEvent } from "react";
+import type { DatePickerProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {
+  Avatar,
   Button,
   ButtonProps,
   Col,
@@ -13,6 +15,8 @@ import {
   Select,
   Space,
 } from "antd";
+import { createUsers, getUsers } from "@/libs/getData";
+import { api } from "@/libs/endpoints";
 
 interface IProps extends ButtonProps {
   children?: ReactNode;
@@ -20,10 +24,45 @@ interface IProps extends ButtonProps {
   buttonContent: string;
 }
 
+// Form Data
+
 const { Option } = Select;
+
+const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+  console.log(date, dateString);
+};
 
 const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
   const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    dateOfBirth: "",
+    admissionDate: "",
+    guardianName: "",
+  });
+
+  const {
+    firstName,
+    lastName,
+    email,
+    gender,
+    dateOfBirth,
+    admissionDate,
+    guardianName,
+  } = formData;
+
+  // alert(firstName);
+
+  useEffect(() => {
+    getUsers(api.allStudents);
+  }, []);
+
+  const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const showDrawer = () => {
     setOpen(true);
@@ -31,6 +70,26 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  // New Code
+
+  const addStudentHandler = async () => {
+    const payload = {
+      username: "Amasaman",
+      firstName,
+      lastName,
+      email,
+      password: "ama@123",
+      gender: "female",
+      dateOfBirth: "2001-02-04",
+      admissionDate: "2019-09-07",
+      guardianName: "Charles Taylor",
+    };
+
+    onClose();
+    createUsers(api.createStudent, payload);
+    getUsers(api.allStudents);
   };
 
   return (
@@ -52,52 +111,92 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onClose} type="primary">
+            <Button type="primary" onClick={addStudentHandler}>
               Submit
             </Button>
           </Space>
         }
       >
         <Form layout="vertical">
+          <Row
+            // gutter={16}
+            className="flex items-center justify-center flex-col"
+          >
+            <Col className="flex items-center justify-center flex-col ">
+              <Avatar
+                className="w-24 h-24 mb-4"
+                src="https://media.istockphoto.com/id/1264106976/photo/headshot-of-bearded-mid-adult-black-man-in-polo-shirt.jpg?s=170667a&w=0&k=20&c=laQvyYpXZi6wCrDjdz_G0u44Nc52coc3tl43LUhqZ28="
+              />
+              <div className="mb-4">
+                <Button className="mr-4">Upload</Button>
+                <Button type="link">Remove</Button>
+              </div>
+            </Col>
+          </Row>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="name"
-                label="Name"
+                // name="first_name"
+                label="First Name"
                 rules={[{ required: true, message: "Please enter user name" }]}
               >
-                <Input placeholder="Please enter user name" />
+                <Input
+                  name="firstName"
+                  placeholder="Please enter first name"
+                  value={firstName}
+                  onChange={formDataHandler}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Last Name"
+                rules={[
+                  { required: true, message: "Please enter your last name" },
+                ]}
+              >
+                <Input
+                  placeholder="Please enter last name"
+                  name="lastName"
+                  value={lastName}
+                  onChange={formDataHandler}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name="middle_name" label="Middle Name">
+                <Input placeholder="Please enter middle name" />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 name="email"
                 label="Email"
-                rules={[{ required: true, message: "Please enter email" }]}
+                rules={[{ required: true, message: "Please enter address" }]}
               >
-                <Input placeholder="Please enter email" />
+                <Input
+                  placeholder="Please enter email"
+                  name="email"
+                  onChange={formDataHandler}
+                />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                name="contact"
-                label="Contact Number"
-                rules={[
-                  { required: true, message: "Please enter contact number" },
-                ]}
-              >
-                <Input placeholder="Please enter user contact number" />
+              <Form.Item name="GPS" label="GPS">
+                <Input placeholder="Please enter GPS" />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name="address"
-                label="Address"
-                rules={[{ required: true, message: "Please enter address" }]}
-              >
-                <Input placeholder="Please enter addrress" />
+              <Form.Item name="location" label="Location">
+                <Input
+                  placeholder="Please enter location"
+                  name="location"
+                  onChange={formDataHandler}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -105,7 +204,7 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
             <Col span={12}>
               <Form.Item
                 name="class"
-                label="Class"
+                label="Date of Birth"
                 rules={[
                   {
                     required: true,
@@ -113,10 +212,7 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
                   },
                 ]}
               >
-                <Select placeholder="Please select a class">
-                  <Option value="xiao">Xiaoxiao Fu</Option>
-                  <Option value="mao">Maomao Zhou</Option>
-                </Select>
+                <DatePicker onChange={onChange} className="w-[100%]" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -140,10 +236,10 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="teacher"
-                label="Teacher"
+                name="class_type"
+                label="Class Type"
                 rules={[
-                  { required: true, message: "Please choose the teacher" },
+                  { required: true, message: "Please choose class type" },
                 ]}
               >
                 <Select placeholder="Please choose the teacher">
@@ -154,6 +250,28 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
             </Col>
             <Col span={12}>
               <Form.Item
+                name="class"
+                label="Class"
+                rules={[{ required: true, message: "Please choose the class" }]}
+              >
+                <Select placeholder="Please choose the teacher">
+                  <Option value="jack">Jack Ma</Option>
+                  <Option value="tom">Tom Liu</Option>
+                </Select>
+              </Form.Item>
+              {/* <Form.Item
+                name="teacher"
+                label="Teacher"
+                rules={[
+                  { required: true, message: "Please choose the teacher" },
+                ]}
+              >
+                <Select placeholder="Please choose the teacher">
+                  <Option value="jack">Jack Ma</Option>
+                  <Option value="tom">Tom Liu</Option>
+                </Select>
+              </Form.Item> */}
+              {/* <Form.Item
                 name="Admission Period"
                 label="Admission Period"
                 rules={[
@@ -167,50 +285,46 @@ const CustomDrawer = ({ children, width, buttonContent }: IProps) => {
                   style={{ width: "100%" }}
                   getPopupContainer={(trigger) => trigger.parentElement!}
                 />
-              </Form.Item>
+              </Form.Item> */}
             </Col>
           </Row>
+
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                name="guardian name"
-                label="Guardian Name"
-                rules={[
-                  { required: true, message: "Please enter guardian name" },
-                ]}
-              >
+              <Form.Item name="guardian name" label="Guardian Name">
                 <Input placeholder="Please enter user guardian name" />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name="guardian number"
-                label="Guardian's Number"
-                rules={[
-                  { required: true, message: "Please enter guardian's number" },
-                ]}
-              >
-                <Input placeholder="Please enter guardian's number" />
+              <Form.Item name="guardian number" label="Guardian's Phone Number">
+                <Input placeholder="Please enter guardian's phone" />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={24}>
+            <Col span={12}>
               <Form.Item
-                name="description"
-                label="Description"
+                name="relation_to_guardian"
+                label="Relation to Guardian"
+              >
+                <Select placeholder="Please choose the teacher">
+                  <Option value="jack">Jack Ma</Option>
+                  <Option value="tom">Tom Liu</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="emergency_contact_number"
+                label="Emergency Contact Number"
                 rules={[
                   {
                     required: true,
-                    message:
-                      "Please provide a brief description about the student",
+                    message: "Please enter emergency contact number",
                   },
                 ]}
               >
-                <Input.TextArea
-                  rows={4}
-                  placeholder="Add a brief description..."
-                />
+                <Input placeholder="Please enter guardian's phone" />
               </Form.Item>
             </Col>
           </Row>

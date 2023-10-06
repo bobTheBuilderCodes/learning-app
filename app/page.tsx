@@ -15,26 +15,49 @@ type RequiredMark = boolean | "optional";
 export default function Home() {
   const [form] = Form.useForm();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const toggleSwitch = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [userType, setUserType] = useState("");
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    username: "",
+  });
 
   const { email, password } = formData;
 
-  const validation = !email || !password;
+  const payload = userType.includes("@")
+    ? { email: userType, password }
+    : { username: userType, password };
+
+  // const onFinish = async () => {
+  //   await signIn("credentials", {
+  //     ...payload,
+  //     // password,
+  //     redirect: true,
+  //     callbackUrl: "/dashboard",
+  //   });
+  //   console.log("payload", payload);
+  // };
 
   const onFinish = async () => {
-    await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/dashboard",
-    });
-    console.log(email, password);
+    try {
+      setIsLoading(true);
+      const res = await signIn("credentials", {
+        ...payload,
+        redirect: false,
+      });
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+    console.log("status", status);
   };
 
   const session = useSession();
@@ -43,14 +66,11 @@ export default function Home() {
 
   useEffect(() => {
     console.log("Status", status);
-    if (session.data?.user.userRole) {
+    if (status === "authenticated") {
       router.push("/dashboard");
       setError(false);
     } else {
       router.push("/");
-      // alert("Invalid credentials. Try again");
-      // setError(true);
-      // throw new Error("Unable to log in with credentials");
     }
     console.log("Status 2", status);
   }, [session.data?.user, router, status]);
@@ -58,6 +78,9 @@ export default function Home() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setUserType(e.target.value);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
@@ -74,8 +97,8 @@ export default function Home() {
           label="Username / Email"
           name="email"
           placeholder="Enter your username / email"
-          value={email}
-          onChange={onChange}
+          value={userType}
+          onChange={handleChange}
           style={{ color: "white !important" }}
           // className={`${error ? "error_message" : ""} `}
         />
@@ -93,10 +116,10 @@ export default function Home() {
         </Button>
         <br />
         <CustomButton
-          disabled={!email.trim() || !password.trim() ? true : false}
+          // disabled={!email.trim() || !password.trim() ? true : false}
           onClick={onFinish}
         >
-          {status === "loading" ? "Loading..." : "Log in"}
+          {isLoading ? "Loading..." : "Log in"}
         </CustomButton>
       </Form>
     </main>
