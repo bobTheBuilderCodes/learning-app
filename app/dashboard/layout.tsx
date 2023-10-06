@@ -18,6 +18,7 @@ import Link from "next/link";
 import IconButton from "@/shared/IconButton";
 import Avatars from "@/components/Avatars";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,7 +27,7 @@ interface IProps {
 }
 
 const DashboardLayout = ({ children }: IProps) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const role = session?.user.userRole;
   const [collapsed, setCollapsed] = useState(false);
   const {
@@ -85,6 +86,11 @@ const DashboardLayout = ({ children }: IProps) => {
     },
   ];
 
+  const router = useRouter();
+  if (status !== "authenticated") {
+    console.log(status);
+    router.push("/");
+  }
   return (
     <Layout className="min-h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -138,6 +144,7 @@ const DashboardLayout = ({ children }: IProps) => {
           ]}
         />
       </Sider>
+      {/* <CustomSidebar /> */}
       <Layout>
         <Header
           style={{

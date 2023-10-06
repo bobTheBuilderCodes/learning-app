@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { Button, ConfigProvider, Space } from "antd";
 import Providers from "@/components/Providers";
 
+import { signIn } from "next-auth/react";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

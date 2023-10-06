@@ -26,7 +26,7 @@ const Avatars = () => {
   const menu = (
     <Menu className="">
       <Menu.Item key="1" className="mr-8 p-2">
-        <a href="/profile">Profile</a>
+        <a href="/dashboard/profile">Profile</a>
       </Menu.Item>
       <Menu.Item key="2" onClick={() => signOut({ callbackUrl: "/" })}>
         Log out

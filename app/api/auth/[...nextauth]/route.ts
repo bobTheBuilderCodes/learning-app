@@ -33,9 +33,10 @@ const handler = NextAuth({
       },
     }),
   ],
-  secret: process.env.VERCEL,
+  secret: process.env.NEXTAUTH_URL,
   pages: {
     signIn: "/",
+    // signOut: ''
     // error: 'auth/error'
   },
   callbacks: {

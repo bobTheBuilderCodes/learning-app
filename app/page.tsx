@@ -36,16 +36,6 @@ export default function Home() {
     ? { email: userType, password }
     : { username: userType, password };
 
-  // const onFinish = async () => {
-  //   await signIn("credentials", {
-  //     ...payload,
-  //     // password,
-  //     redirect: true,
-  //     callbackUrl: "/dashboard",
-  //   });
-  //   console.log("payload", payload);
-  // };
-
   const onFinish = async () => {
     try {
       setIsLoading(true);
@@ -72,7 +62,6 @@ export default function Home() {
     } else {
       router.push("/");
     }
-    console.log("Status 2", status);
   }, [session.data?.user, router, status]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
