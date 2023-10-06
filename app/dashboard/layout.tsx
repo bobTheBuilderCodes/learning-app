@@ -18,7 +18,7 @@ import Link from "next/link";
 import IconButton from "@/shared/IconButton";
 import Avatars from "@/components/Avatars";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 const { Header, Sider, Content } = Layout;
 
