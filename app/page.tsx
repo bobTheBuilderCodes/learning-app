@@ -8,7 +8,7 @@ import { Button, Form, Input, Radio, Switch } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 type RequiredMark = boolean | "optional";
 

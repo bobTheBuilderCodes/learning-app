@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import Heading from "@/constants/Heading";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import SubHeading from "@/constants/SubHeading";
 
 interface IProps {
