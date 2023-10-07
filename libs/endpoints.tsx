@@ -1,4 +1,4 @@
-const baseUrl = "https://schoolsphere-backend.onrender.com";
+const baseUrl = "https://schoolsphere-backend.onrender.com"
 export const api = {
   allStudents: `${baseUrl}/students/allStudents`,
   singleStudent: `${baseUrl}/students/`,
