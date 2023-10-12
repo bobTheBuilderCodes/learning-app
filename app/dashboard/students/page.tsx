@@ -15,14 +15,12 @@ import Container from "@/components/Container";
 import Heading from "@/constants/Heading";
 import SubHeading from "@/constants/SubHeading";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+
 
 export default function Students() {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  
 
   const [users, setUsers] = useState<allStudents | null>(null);
-  // const { data: users, error } = useSWR(api.allStudents, fetcher);
-  console.log("all Users", users);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,6 +30,8 @@ export default function Students() {
 
     fetchUsers();
   }, [users?.students.length]);
+
+  console.log("User details", users)
 
   return (
     <>
@@ -52,7 +52,8 @@ export default function Students() {
 
       <Container>
         {users?.students?.map(
-          ({ rollId, firstName, middleName, lastName, email }) => (
+      
+          ({ rollId, firstName , middleName, lastName, email }) => (
             <Link href={`/dashboard/students/${rollId}`} key={rollId}>
               <CustomCard
                 name={`${firstName} ${middleName || ""} ${lastName}`}

@@ -1,19 +1,5 @@
 import { api } from "./endpoints";
 
-export async function getUsers(url: string): Promise<allStudents> {
-  const res = await fetch(url, { cache: "no-cache" });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
-  }
-
-  return res.json();
-}
-
-const headers = new Headers({
-  "Content-Type": "application/json",
-});
-
 interface IProps {
   username?: string;
   firstName: string;
@@ -25,6 +11,24 @@ interface IProps {
   admissionDate: string;
   guardianName: string;
 }
+
+const headers = new Headers({
+  "Content-Type": "application/json",
+});
+
+
+// export async function getUsers(url: string): Promise<allStudents > {
+export async function getUsers(url: string) {
+  const res = await fetch(url, { cache: "no-cache" });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+
 
 export async function createUsers(url: string, payload: IProps) {
   try {

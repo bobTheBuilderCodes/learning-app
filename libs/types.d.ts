@@ -133,3 +133,23 @@ type createStudent = {
   emergencyContact: string;
   emergencyContactName: string;
 };
+
+
+type allTickets = 	
+
+{
+  "allTickets": [
+    {
+      "ticketId": number,
+      "ticketName": string,
+      "reason": string,
+      "ticketItem": string,
+      "ticketDate": string,
+      "ticketStatus": string,
+      "studentId": string,
+      "createdAt": string,
+      "updatedAt": string
+    }
+  ],
+  "message": "All Tickets Fetched Successfully"
+}

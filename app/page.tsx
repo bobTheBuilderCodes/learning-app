@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/Spinner";
 
 type RequiredMark = boolean | "optional";
 
@@ -39,13 +40,17 @@ export default function Home() {
   const onFinish = async () => {
     try {
       setIsLoading(true);
-      const res = await signIn("credentials", {
-        ...payload,
+      // const res = await signIn("credentials", {
+      await signIn("credentials", {
+        username: email,
+        password,
         redirect: false,
       });
+      console.log("username:", email, password);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
+      alert("Invalid credentials");
     }
     console.log("status", status);
   };
@@ -86,8 +91,8 @@ export default function Home() {
           label="Username / Email"
           name="email"
           placeholder="Enter your username / email"
-          value={userType}
-          onChange={handleChange}
+          value={email}
+          onChange={onChange}
           style={{ color: "white !important" }}
           // className={`${error ? "error_message" : ""} `}
         />
@@ -105,10 +110,10 @@ export default function Home() {
         </Button>
         <br />
         <CustomButton
-          // disabled={!email.trim() || !password.trim() ? true : false}
+          disabled={!email.trim() || !password.trim() ? true : false}
           onClick={onFinish}
         >
-          {isLoading ? "Loading..." : "Log in"}
+          {isLoading ? <Spinner /> : "Log in"}
         </CustomButton>
       </Form>
     </main>
