@@ -11,14 +11,14 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
   SettingOutlined,
-  BellOutlined,
+  
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme } from "antd";
 import Link from "next/link";
-import IconButton from "@/shared/IconButton";
+
 import Avatars from "@/components/Avatars";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 
 const { Header, Sider, Content } = Layout;
 
@@ -34,12 +34,7 @@ const DashboardLayout = ({ children }: IProps) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  // const permission = role === 'student' ?
-
-  // const router = useRouter();
-  // if (status !== "authenticated") {
-  //   console.log(status);
-  // }
+  
   return (
     <Layout className="min-h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed}>

@@ -67,3 +67,8 @@ body {
 .sidebar-content {
   padding: 10px;
 }
+
+
+.ant-spin-dot-item {
+  background-color: white !important;
+}
