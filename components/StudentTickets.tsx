@@ -2,18 +2,24 @@
 
 import { api } from "@/libs/endpoints";
 import { getUsers } from "@/libs/getData";
-import { Table } from "antd";
+import { Select, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import CustomTable from "./CustomTable";
+import Spinner from "./Spinner";
+import InputField from "@/shared/InputField";
+import { useSession } from "next-auth/react";
+import CustomDrawer from "./Drawer";
+import Container from "./Container";
+import SubHeading from "@/constants/SubHeading";
 
 interface TableRow {
-  ticketName: string,
-  ticketStatus: string,
-  reason: string,
-  ticketDate: string,
-  ticketId: string,
-  ticketItem: string,
-  studentId: string,
+  ticketName: string;
+  ticketStatus: string;
+  reason: string;
+  ticketDate: string;
+  ticketId: string;
+  ticketItem: string;
+  studentId: string;
 }
 
 const StudentTickets = () => {
@@ -29,8 +35,11 @@ const StudentTickets = () => {
     console.log("Tickets", tickets);
   }, []);
 
-  console.log("Here", tickets);
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
 
+  
   const columns = [
     {
       title: "Ticket Name",
@@ -54,17 +63,39 @@ const StudentTickets = () => {
     },
   ];
 
+  const { data: user } = useSession();
+  const currentUser = user?.user;
+
   return (
     <div>
-      {tickets ? (
-        <CustomTable columns={columns}
-         data={tickets} 
-         />
-      ) : (
-        <p>Loading...</p>
-      )}
-
-      <Table columns={columns} dataSource={[]} />
+      {" "}
+      <Container className="">
+      <Select
+      defaultValue="Pending" size="large"
+      style={{ width: 200 }}
+      onChange={handleChange}
+      options={[
+        { value: 'pending', label: 'Pending' },
+        { value: 'confirmed', label: 'Confirmed' },
+        { value: 'rejected', label: 'Rejected' },
+        
+      ]}
+    />
+        <div className="flex w-[35%] justify-end">
+          <InputField
+            placeholder="Search tickets"
+            className={"whiteLabelInput w-[230px] mr-6"}
+          />
+{ 
+currentUser?.userRole !== "admin" ? "" :
+          <CustomDrawer
+          buttonContent="Add New Student"
+          // onClick={() => alert("This is working")}
+          />
+        }
+        </div>
+      </Container>
+      {tickets ? <CustomTable columns={columns} data={tickets} /> : <Spinner />}
     </div>
   );
 };
