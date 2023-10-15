@@ -1,22 +1,31 @@
 import React from 'react';
+import CustomPopover from './Popover';
 
-type DataObject = {
-  [key: string]: any;
-};
-
-type Column = {
+interface TableColumn {
   title: string;
   dataIndex: string;
-  key: string;
-};
-
-
-interface TableProps {
-  data: DataObject[];
-  columns: Column[];
+  key: any;
 }
 
-const Table: React.FC<TableProps> = ({ data, columns }) => {
+
+interface CustomTableRow {
+  ticketName: string;
+  ticketStatus: string;
+  reason: string;
+  ticketDate: string;
+  ticketId: string;
+  ticketItem: string;
+  studentId: string;
+  [key: string]: string; 
+}
+
+
+interface CustomTableProps {
+  columns: TableColumn[];
+  data?:  CustomTableRow[]; 
+}
+
+const CustomTable: React.FC<CustomTableProps> = ({ columns, data }) => {
   return (
     <table>
       <thead>
@@ -27,10 +36,10 @@ const Table: React.FC<TableProps> = ({ data, columns }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item, index) => (
-          <tr key={index}>
+        {data?.map((row, rowIndex) => (
+          <tr key={rowIndex} className='ant-table-cell'>
             {columns.map((column) => (
-              <td key={`${column.key}-${index}`}>{item[column.dataIndex]}</td>
+              <td key={column.key}>{row[column.dataIndex]}</td> 
             ))}
           </tr>
         ))}
@@ -39,4 +48,4 @@ const Table: React.FC<TableProps> = ({ data, columns }) => {
   );
 };
 
-export default Table;
+export default CustomTable;

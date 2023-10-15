@@ -72,3 +72,7 @@ body {
 .ant-spin-dot-item {
   background-color: white !important;
 }
+
+.my-table .ant-table-thead {
+  background: red;
+}

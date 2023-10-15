@@ -37,16 +37,30 @@ export default function Home() {
   const onFinish = async () => {
     try {
       setIsLoading(true);
-      // const res = await signIn("credentials", {
       await signIn("credentials", {
         username: email,
         password,
         redirect: false,
       });
       setIsLoading(false);
+
+      // Throw error here
+
+      if(status === "unauthenticated" || !data?.user.rollId) {
+        router.push("/");
+        setError(true)
+        setTimeout(()=>{
+          setError(false)
+        },4000)
+      }
+
     } catch (error) {
+      alert(error)
       setIsLoading(false);
       setError(true)
+      setTimeout(()=>{
+        setError(false)
+      },4000)
     }finally{
       setIsLoading(false)
     }
@@ -61,13 +75,15 @@ export default function Home() {
     console.log("Status", status);
     if (status === "authenticated" && data.user.rollId) {
       router.push("/dashboard");
-      console.log(status, "your status")
-      // setError(false);
+      setError(false);
     } 
     
-    if(status == "unauthenticated" || !data?.user.rollId) {
+    if(status === "unauthenticated" || !data?.user.rollId) {
       router.push("/");
       // setError(true)
+      // setTimeout(()=>{
+      //   setError(false)
+      // },4000)
     }
   }, [session.data?.user, status]);
 
@@ -80,7 +96,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
-      {error && <Alert message="Error" type="error" showIcon />}
+      {error && <Alert message="Invalid credentials. Please try again!" className="mb-4" type="error" showIcon />}
       <Form
         onFinish={onFinish}
         form={form}
@@ -113,7 +129,7 @@ export default function Home() {
         </Button>
         <br />
         <CustomButton
-          disabled={!email.trim() || !password.trim() ? true : false}
+          disabled={!email.trim() || !password.trim() || status === "loading" ? true : false}
           onClick={onFinish}
         >
           {isLoading ? <Spinner /> : "Log in"}
