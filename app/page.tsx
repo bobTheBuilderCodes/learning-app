@@ -4,7 +4,7 @@ import CustomButton from "@/shared/CustomButton";
 import InputField from "@/shared/InputField";
 import Heading from "@/constants/Heading";
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Radio, Switch } from "antd";
+import { Alert, Button, Form, Input, Radio, Switch } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
@@ -33,9 +33,6 @@ export default function Home() {
 
   const { email, password } = formData;
 
-  const payload = userType.includes("@")
-    ? { email: userType, password }
-    : { username: userType, password };
 
   const onFinish = async () => {
     try {
@@ -46,28 +43,33 @@ export default function Home() {
         password,
         redirect: false,
       });
-      console.log("username:", email, password);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      alert("Invalid credentials");
+      setError(true)
+    }finally{
+      setIsLoading(false)
     }
     console.log("status", status);
-  };
+  }
 
   const session = useSession();
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   useEffect(() => {
     console.log("Status", status);
-    if (status === "authenticated") {
+    if (status === "authenticated" && data.user.rollId) {
       router.push("/dashboard");
-      setError(false);
-    } else {
+      console.log(status, "your status")
+      // setError(false);
+    } 
+    
+    if(status == "unauthenticated" || !data?.user.rollId) {
       router.push("/");
+      // setError(true)
     }
-  }, [session.data?.user, router, status]);
+  }, [session.data?.user, status]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -78,6 +80,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
+      {error && <Alert message="Error" type="error" showIcon />}
       <Form
         onFinish={onFinish}
         form={form}

@@ -20,6 +20,9 @@ const StudentTickets = () => {
 
   
 
+
+  console.log("Here", tickets?.allTickets)
+
  
 
   const columns = [
@@ -45,8 +48,9 @@ const StudentTickets = () => {
     },
   ];
   
+  
 
-  return <Table dataSource={tickets?.allTickets} columns={columns} />;;
+  return  <Table dataSource={tickets?.allTickets} columns={columns} />;
 };
 
 export default StudentTickets;

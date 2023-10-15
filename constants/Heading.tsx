@@ -8,7 +8,7 @@ interface IProps {
 const Heading = ({ children, className, ...otherProps }: IProps) => {
   return (
     <>
-      <h2 className={`mb-3 text-3xl font-bold ${className}`} {...otherProps}>
+      <h2 className={`mb-3 text-3xl font-bold  ${className}`} {...otherProps}>
         {children}{" "}
       </h2>
     </>
