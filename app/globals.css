@@ -72,3 +72,23 @@ body {
 .ant-spin-dot-item {
   background-color: white !important;
 }
+
+
+
+.thead{
+ 
+ 
+}
+
+.columnCell{
+  
+  
+ 
+}
+
+.tableCell{    
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 0 5px rgb(244, 245, 250);
+
+  }
