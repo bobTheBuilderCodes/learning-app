@@ -21,12 +21,28 @@ interface CustomTableRow {
 }
 
 
+
 interface CustomTableProps {
   columns: TableColumn[];
-  data?:  CustomTableRow[]; 
+  data?: CustomTableRow[];
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
+  onPageChange: (newPage: number) => void;
 }
 
-const CustomTable: React.FC<CustomTableProps> = ({ columns, data }) => {
+
+
+const CustomTable: React.FC<CustomTableProps> = ({ columns, data, totalItems, itemsPerPage, currentPage, onPageChange }) => {
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      onPageChange(newPage);
+    }
+  };
+
   return (
     <table className='w-[100%] text-left'>
       <thead className='thead'>
@@ -40,17 +56,29 @@ const CustomTable: React.FC<CustomTableProps> = ({ columns, data }) => {
         {data?.map((row, rowIndex) => (
           <tr key={rowIndex} className='bg-white h-11 even:bg-slate-50'>
             {columns.map((column) => (
-              
               <td className='p-3' key={column.key}>{row[column.dataIndex]}</td> 
             ))}
           </tr>
         ))}
       </tbody>
-      <tfoot>
-        Pagination goes here
+      <tfoot className='text-right w-[100% bg-white' >
+        <td colSpan={columns.length} className='p-4 border-t-2 border-slate-50'>
+        <div className="pagination">
+      <button onClick={() => handlePageChange(currentPage - 1)}>Previous</button>
+      <span>{`Page ${currentPage} of ${totalPages}`}</span>
+      <button onClick={() => handlePageChange(currentPage + 1)}>Next</button>
+    </div>
+        </td>
       </tfoot>
     </table>
   );
 };
 
 export default CustomTable;
+
+
+
+
+
+
+
