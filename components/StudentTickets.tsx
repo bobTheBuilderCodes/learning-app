@@ -86,18 +86,18 @@ const StudentTickets = () => {
             placeholder="Search tickets"
             className={"whiteLabelInput w-[230px] mr-6"}
           />
-{ 
-currentUser?.userRole !== "admin" ? "" :
+
           <CustomDrawer
-          buttonContent="Add New Student"
+          buttonContent="Add New Ticket"
           // onClick={() => alert("This is working")}
           />
-        }
+        
         </div>
       </Container>
-      {tickets ? <CustomTable columns={columns} data={tickets} /> : <Spinner />}
+      {tickets ? <CustomTable currentPage={1} itemsPerPage={10} totalItems={10} onPageChange={()=>{}} columns={columns} data={tickets} /> : <Spinner />}
     </div>
   );
 };
 
 export default StudentTickets;
+
