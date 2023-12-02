@@ -9,18 +9,19 @@ import SubHeading from "@/constants/SubHeading";
 
 interface IProps {
   children?: ReactNode;
+  className?: string
 }
 
-const Stepback = ({ children }: IProps) => {
+const Stepback = ({ children , className}: IProps) => {
   const router = useRouter();
   return (
     <div className="flex">
       <ArrowLeftOutlined
-        className="mx-3 cursor-pointer"
+        className={`mx-3 cursor-pointer ${className}`}
         onClick={() => router.back()}
       />
 
-      <SubHeading>{children}</SubHeading>
+      <SubHeading className={`${className}`}>{children}</SubHeading>
     </div>
   );
 };

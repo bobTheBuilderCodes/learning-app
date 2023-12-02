@@ -11,28 +11,23 @@ import { useSession } from "next-auth/react";
 import CustomDrawer from "./Drawer";
 import Container from "./Container";
 import SubHeading from "@/constants/SubHeading";
+import { useParams } from "next/navigation";
 
-interface TableRow {
-  ticketName: string;
-  ticketStatus: string;
-  reason: string;
-  ticketDate: string;
-  ticketId: string;
-  ticketItem: string;
-  studentId: string;
-}
+
 
 const StudentTickets = () => {
-  const [tickets, setTickets] = useState<null>(null);
+  const [tickets, setTickets] = useState<null | []>([]);
+  const {userId} = useParams()
 
   const fetchTickets = async () => {
-    const data = await getUsers(api.allTickets);
-    setTickets(data.allTickets);
+    const loggedInUserTickets = `${api.studentTickets}/${userId}`
+    const data = await getUsers(loggedInUserTickets);
+    setTickets(data.studentTickets);
   };
 
   useEffect(() => {
     fetchTickets();
-    console.log("Tickets", tickets);
+   
   }, []);
 
   const handleChange = (value: string) => {
@@ -61,15 +56,17 @@ const StudentTickets = () => {
       dataIndex: "ticketDate",
       key: "ticketDate",
     },
+    
   ];
 
-  const { data: user } = useSession();
-  const currentUser = user?.user;
+
+
+
 
   return (
     <div>
       {" "}
-      <Container className="">
+      <Container className="justify-between">
       <Select
       defaultValue="Pending" size="large"
       style={{ width: 200 }}
@@ -89,11 +86,12 @@ const StudentTickets = () => {
 
           <CustomDrawer
           buttonContent="Add New Ticket"
-          // onClick={() => alert("This is working")}
+         
           />
         
         </div>
       </Container>
+     
       {tickets ? <CustomTable currentPage={1} itemsPerPage={10} totalItems={10} onPageChange={()=>{}} columns={columns} data={tickets} /> : <Spinner />}
     </div>
   );
