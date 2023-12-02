@@ -8,7 +8,7 @@ import InputField from "@/shared/InputField";
 import Link from "next/link";
 
 import Stepback from "@/components/Stepback";
-import { createUsers, getUser, getUsers } from "@/libs/getData";
+import { postData, getUser, getUsers } from "@/libs/getData";
 import { api } from "@/libs/endpoints";
 import Container from "@/components/Container";
 
@@ -41,11 +41,7 @@ export default function Students() {
         <SubHeading className="text-gray-900 mx-6">All Students</SubHeading>
         <div className="flex w-[35%] justify-end">
           <InputField
-            placeholder="Search students by name"
-            className={"whiteLabelInput w-[230px] mr-6"}
-          />
-          {currentUser?.userRole !== "admin" ? (
-            ""
+            placeholder="Search students by name" className={"whiteLabelInput w-[230px] mr-6"} /> {currentUser?.userRole !== "admin" ? ( ""
           ) : (
             <CustomDrawer
               buttonContent="Add New Student"

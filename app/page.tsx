@@ -80,10 +80,6 @@ export default function Home() {
     
     if(status === "unauthenticated" || !data?.user.rollId) {
       router.push("/");
-      // setError(true)
-      // setTimeout(()=>{
-      //   setError(false)
-      // },4000)
     }
   }, [session.data?.user, status]);
 
@@ -113,7 +109,6 @@ export default function Home() {
           value={email}
           onChange={onChange}
           style={{ color: "white !important" }}
-          // className={`${error ? "error_message" : ""} `}
         />
         <InputField
           label="Password"

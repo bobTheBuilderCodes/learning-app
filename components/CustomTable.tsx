@@ -1,11 +1,12 @@
+import { postData } from "@/libs/getData";
 import CustomOptions from "./CustomOptions";
+import { api } from "@/libs/endpoints";
 
 interface TableColumn {
   title: string;
   dataIndex: string;
   key: any;
 }
-
 
 interface CustomTableRow {
   ticketName: string;
@@ -15,11 +16,8 @@ interface CustomTableRow {
   ticketId: string;
   ticketItem: string;
   studentId: string;
-  [key: string]: string; 
-
+  [key: string]: string;
 }
-
-
 
 interface CustomTableProps {
   columns: TableColumn[];
@@ -29,7 +27,6 @@ interface CustomTableProps {
   currentPage: number;
   onPageChange: (newPage: number) => void;
 }
-
 
 const CustomTable: React.FC<CustomTableProps> = ({
   columns,
@@ -47,6 +44,19 @@ const CustomTable: React.FC<CustomTableProps> = ({
     }
   };
 
+  const deleteTicketHandler = (id: string) => {
+    postData({
+      method: "DELETE",
+      url: `${api.deleteTicket}/${id}`,
+      payload: {
+        ticketId: id
+      },
+      message: "Ticket deleted successfully",
+    });
+    // window.location.reload()
+    console.log("ticket id", id)
+  };
+
   return (
     <table className="w-[100%] text-left">
       <thead className="thead">
@@ -59,7 +69,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
           <th className="px-3 bg-slate-100">Actions</th>
         </tr>
       </thead>
-     
+
       <tbody>
         {data?.map((row, rowIndex) => (
           <tr key={rowIndex} className="bg-white h-11 even:bg-slate-50">
@@ -67,24 +77,26 @@ const CustomTable: React.FC<CustomTableProps> = ({
               <td
                 className={`px-2 ${
                   column.dataIndex === "ticketStatus"
-                    ? row[column.dataIndex] === "pending"
+                    ? row[column.dataIndex] === "Pending"
                       ? "bg-yellow-50 inline-block mt-2 rounded-full text-yellow-600"
-                      : row[column.dataIndex] === "approved"
+                      : row[column.dataIndex] === "Approved"
                       ? "bg-green-50 inline-block mt-2 rounded-full text-green-600"
                       : "text-gray-900"
                     : ""
                 }`}
                 key={column.key}
               >
-                {column.dataIndex === 'ticketDate' ? 
-                  new Date(row[column.dataIndex]).toDateString() : 
-                  row[column.dataIndex]}
+                {column.dataIndex === "ticketDate"
+                  ? new Date(row[column.dataIndex]).toDateString()
+                  : row[column.dataIndex]}
               </td>
             ))}
             <td>
               <CustomOptions>
-                <p className="mr-5">Edit</p>
-                <p>Delete</p>
+                <button className="mr-5">Edit</button>
+                <button onClick={() => deleteTicketHandler(row.ticketId)}>
+                  Delete
+                </button>
               </CustomOptions>
             </td>
           </tr>
@@ -92,7 +104,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
       </tbody>
       <tfoot className="text-right w-[100%] bg-white">
         <tr>
-          <td colSpan={columns.length + 1} className="p-4 border-t-2 border-slate-50">
+          <td
+            colSpan={columns.length + 1}
+            className="p-4 border-t-2 border-slate-50"
+          >
             <div className="pagination">
               <button
                 className="bg-gray-100 p-3 rounded-md mx-3 font-bold text-gray-700"

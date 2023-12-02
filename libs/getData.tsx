@@ -1,4 +1,5 @@
-import { api } from "./endpoints";
+
+import { Alert } from "antd";
 
 interface IProps {
   username?: string;
@@ -12,36 +13,38 @@ interface IProps {
   guardianName: string;
 }
 
-const headers = new Headers({
-  "Content-Type": "application/json",
-});
 
 
 // export async function getUsers(url: string): Promise<allStudents > {
 export async function getUsers(url: string) {
   const res = await fetch(url, { cache: "no-cache" });
 
-  // if (!res.ok) {
-  //   throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
-  // }
-
   return res.json();
 }
 
+interface IPostData {
+  method?: string,
+  url: string,
+  payload: any,
+  message: string
+}
 
-
-export async function createUsers(url: string, payload: IProps) {
+export async function postData({method = 'POST', url, payload, message}: IPostData) {
   try {
     const response = await fetch(url, {
-      method: "POST",
+      method,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(payload),
     });
 
+    if(response.ok){
+      <Alert message={message} className="mb-4" type="success" showIcon />
+    }
+
     const result = await response.json();
-    getUsers(api.allStudents);
+    // getUsers(api.allStudents);
     console.log(result);
   } catch (error) {
     console.log(error);
