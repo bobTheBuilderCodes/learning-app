@@ -12,15 +12,7 @@ interface IProps{
 const CustomPopover = ({children}: IProps) => {
 
   return (
-    <Popover
-      placement="bottomRight"
-      content={children}
-      trigger="click"
-    >
-      <Button>
-      <MoreOutlined />
-      </Button>
-    </Popover
+    <div></div>
   );
 };
 
