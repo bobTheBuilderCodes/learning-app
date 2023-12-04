@@ -49,6 +49,7 @@ const handler = NextAuth({
         session.user.rollId = token.rollId;
         session.user.loggedInUser = token.loggedInUser;
         session.user.userRole = token.userRole;
+        session.user.accessToken = token.accessToken
         // session.user.class = token.cla
       }
 

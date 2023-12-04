@@ -4,7 +4,7 @@ import Heading from "@/constants/Heading";
 import Paragraph from "@/constants/Paragraph";
 import SubHeading from "@/constants/SubHeading";
 import { api } from "@/libs/endpoints";
-import { getQuotes, getUser, getUsers } from "@/libs/getData";
+import { getQuotes, getSingleData, getData } from "@/libs/getData";
 import { studentTabs, studentTabsContent } from "@/shared/tabs";
 import { Avatar } from "antd";
 
@@ -16,7 +16,7 @@ interface IProps {
   };
 }
 export default async function SingleUser({ params }: IProps) {
-  const user = await getUser(api.singleStudent, params.userId);
+  const user = await getSingleData({url: api.singleStudent, dataId: params.userId});
   const { firstName, middleName, lastName, email } = user.findStudent;
 
   // motivational quotes

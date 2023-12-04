@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -91,4 +92,8 @@ body {
   background-color: white;
   box-shadow: 0 0 5px rgb(244, 245, 250);
 
+  }
+
+  :where(.css-dev-only-do-not-override-1hihieh).ant-btn-default{
+    border: none;
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { api } from "@/libs/endpoints";
-import { postData, getUsers } from "@/libs/getData";
+import { postData, getData } from "@/libs/getData";
 import React, { useEffect, useState } from "react";
 import CustomTable from "./CustomTable";
 import Spinner from "./Spinner";
@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import CustomDrawer from "./Drawer";
 import Container from "./Container";
 import { useParams } from "next/navigation";
+import {useRouter} from 'next/navigation'
 
 import { Alert, Col, Form, Input, Row, Select } from "antd";
 
@@ -18,12 +19,23 @@ const { TextArea } = Input;
 const StudentTickets = () => {
   const [tickets, setTickets] = useState<null | []>([]);
   const { userId } = useParams();
+  const router = useRouter()
 
-  const fetchTickets = async () => {
-    const loggedInUserTickets = `${api.studentTickets}/${userId}`;
-    const data = await getUsers(loggedInUserTickets);
+  // const fetchTickets = async () => {
+  //   const loggedInUserTickets = `${api.studentTickets}/${userId}`;
+  //   const data = await getData(loggedInUserTickets);
+  //   setTickets(data.studentTickets);
+  // };
+  const getStudentTickets = async () => {
+    const loggedInUserTickets = `${api.getStudentTickets}/${userId}`;
+    const data = await getData(loggedInUserTickets);
     setTickets(data.studentTickets);
   };
+
+  useEffect(() => {
+    getStudentTickets();
+  }, []);
+
 
   // Handle Forms
   const [formData, setFormData] = useState({
@@ -39,10 +51,7 @@ const StudentTickets = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    fetchTickets();
-  }, []);
-
+ 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -74,6 +83,7 @@ const StudentTickets = () => {
 
     postData({url: `${api.postTicket}/${userId}`, payload: formData, message: "Ticket raised successfully" })
     // onclose()
+    // router.refresh()
   }
   
 
@@ -99,7 +109,7 @@ const StudentTickets = () => {
           />
 
           <CustomDrawer
-            title="Create New Ticket"
+            title="Create New Ticket" type="primary"
             buttonContent="Add New Ticket"  myFunc={addTicketHandler}
           >
             <Form layout="vertical">

@@ -7,6 +7,7 @@ declare module "next-auth/jwt" {
    rollId: string
    loggedInUser: string
    userRole: string
+   accessToken: string
   }
 }
 
@@ -17,6 +18,7 @@ user: User & {
 rollId: string
  loggedInUser: string
    userRole: string
+   accessToken: string
 }
    
   }

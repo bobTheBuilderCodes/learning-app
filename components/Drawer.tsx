@@ -3,19 +3,15 @@ import React, { useState, ReactNode, useEffect, ChangeEvent } from "react";
 import type { DatePickerProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {
-  Avatar,
+ 
   Button,
   ButtonProps,
-  Col,
-  DatePicker,
+  
   Drawer,
-  Form,
-  Input,
-  Row,
-  Select,
+  
   Space,
 } from "antd";
-import { postData,  getUsers } from "@/libs/getData";
+import { postData,  getData } from "@/libs/getData";
 import { api } from "@/libs/endpoints";
 
 interface IProps extends ButtonProps {
@@ -23,6 +19,8 @@ interface IProps extends ButtonProps {
   width?: number;
   buttonContent: string;
   title?: string,
+  icon?: React.ReactElement,
+  buttonType?: "link" | "text" | "default" | "primary" | "dashed" | undefined;
   myFunc?: ()=>void
 }
 
@@ -30,7 +28,7 @@ interface IProps extends ButtonProps {
 
 
 
-const CustomDrawer = ({ children, width, buttonContent , title="Create New", myFunc}: IProps) => {
+const CustomDrawer = ({ children, width, buttonContent , title="Create New", myFunc, icon=<PlusOutlined />, buttonType = "primary"}: IProps) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -55,7 +53,7 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
   // alert(firstName);
 
   useEffect(() => {
-    getUsers(api.allStudents);
+    getData(api.allStudents);
   }, []);
 
   const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,16 +87,16 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
    
     postData({url: api.createStudent, payload, message: "Student created successfully"})
     
-    getUsers(api.allStudents);
+    getData(api.allStudents);
   };
 
   return (
     <>
       <Button
         size="large"
-        type="primary"
+        type={buttonType}
         onClick={showDrawer}
-        icon={<PlusOutlined />}
+        icon={icon}
       >
         {buttonContent}
       </Button>

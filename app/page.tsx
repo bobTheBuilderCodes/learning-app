@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type RequiredMark = boolean | "optional";
 
 export default function Home() {
@@ -33,7 +34,6 @@ export default function Home() {
 
   const { email, password } = formData;
 
-
   const onFinish = async () => {
     try {
       setIsLoading(true);
@@ -46,39 +46,40 @@ export default function Home() {
 
       // Throw error here
 
-      if(status === "unauthenticated" || !data?.user.rollId) {
+      if (status === "unauthenticated" || !data?.user.rollId) {
         router.push("/");
-        setError(true)
-        setTimeout(()=>{
-          setError(false)
-        },4000)
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 4000);
       }
-
     } catch (error) {
-      alert(error)
+      alert(error);
       setIsLoading(false);
-      setError(true)
-      setTimeout(()=>{
-        setError(false)
-      },4000)
-    }finally{
-      setIsLoading(false)
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 4000);
+    } finally {
+      setIsLoading(false);
     }
     console.log("status", status);
-  }
+  };
 
   const session = useSession();
   const router = useRouter();
   const { status, data } = useSession();
+
+  // const alertUserHandler = () => toast("Ticket Deleted Successfully");
 
   useEffect(() => {
     console.log("Status", status);
     if (status === "authenticated" && data.user.rollId) {
       router.push("/dashboard");
       setError(false);
-    } 
-    
-    if(status === "unauthenticated" || !data?.user.rollId) {
+    }
+
+    if (status === "unauthenticated" || !data?.user.rollId) {
       router.push("/");
     }
   }, [session.data?.user, status]);
@@ -92,7 +93,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
-      {error && <Alert message="Invalid credentials. Please try again!" className="mb-4" type="error" showIcon />}
+      {error && 
+      <Alert message="Invalid credentials. Please try again!" className="mb-4" type="error" showIcon />}
+      
+    
       <Form
         onFinish={onFinish}
         form={form}
@@ -124,7 +128,11 @@ export default function Home() {
         </Button>
         <br />
         <CustomButton
-          disabled={!email.trim() || !password.trim() || status === "loading" ? true : false}
+          disabled={
+            !email.trim() || !password.trim() || status === "loading"
+              ? true
+              : false
+          }
           onClick={onFinish}
         >
           {isLoading ? <Spinner /> : "Log in"}

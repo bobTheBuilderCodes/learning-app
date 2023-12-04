@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect, useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -18,6 +18,7 @@ import Link from "next/link";
 
 import Avatars from "@/components/Avatars";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 const { Header, Sider, Content } = Layout;
@@ -27,6 +28,7 @@ interface IProps {
 }
 
 const DashboardLayout = ({ children }: IProps) => {
+  const router = useRouter()
   const { data: session, status } = useSession();
   const role = session?.user.userRole;
   const [collapsed, setCollapsed] = useState(false);
@@ -90,6 +92,15 @@ const DashboardLayout = ({ children }: IProps) => {
   }
 
   menuItems.sort((a:any,b:any)=>a.key - b.key)
+
+  // Check authenticated user
+
+  useLayoutEffect(()=>{
+
+    if(!session?.user.accessToken){
+      router.push("/")
+    }
+  })
 
 
   return (

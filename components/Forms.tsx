@@ -15,7 +15,7 @@ import {
   Select,
   Space,
 } from "antd";
-import { createUsers, getUsers } from "@/libs/getData";
+import { postData, getData } from "@/libs/getData";
 import { api } from "@/libs/endpoints";
 
 interface IProps extends ButtonProps {
