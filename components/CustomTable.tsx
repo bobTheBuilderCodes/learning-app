@@ -1,4 +1,4 @@
-import { getSingleData, getData, postData } from "@/libs/getData";
+
 import CustomOptions from "./CustomOptions";
 import { api } from "@/libs/endpoints";
 import CustomDrawer from "./Drawer";
@@ -35,6 +35,8 @@ interface CustomTableProps {
   itemsPerPage: number;
   currentPage: number;
   onPageChange: (newPage: number) => void;
+  onDeleteTicket: (id: string) => void;
+  onEditTicket: (id: string) => void;
 }
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -44,6 +46,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   itemsPerPage,
   currentPage,
   onPageChange,
+  onDeleteTicket,
+  onEditTicket,
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -55,9 +59,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
   });
 
   const { ticketName, reason, ticketItem } = formData;
-  const authData = useSession();
-  const accessToken = authData?.data?.user?.accessToken!;
-  const router = useRouter()
 
   const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,34 +71,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
     }
   };
 
-  const deleteTicketHandler = async(id: string) => {
-   await postData({
-      method: "DELETE",
-      url: `${api.deleteTicket}/${id}`,
-      payload: {
-        ticketId: id,
-      },
-      authToken: accessToken
-      // message: "Ticket deleted successfully",
-    });
-    // router.refresh()
-    
-    alertUserHandler("Ticket has been deleted successfully");
-  };
+  
 
   // const alertUserHandler = () => toast("Ticket Deleted Successfully");
 
-  const editTicketHandler = async(id: string) => {
-    await postData({
-      method: "PATCH",
-      url: `${api.editTicket}/${id}`,
-      payload: formData,
-      authToken: accessToken,
-      message: "Ticket edited successfully",
-    });
-    
-    // router.refresh()
-  };
 
 
   return (
@@ -141,7 +118,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   buttonContent=""
                   buttonType="text"
                   title="Edit Ticket Request"
-                  myFunc={() => editTicketHandler(row.ticketId)}
+                  onClick={()=> onEditTicket(row.ticketId)}
+                  // myFunc={() => editTicketHandler(row.ticketId)}
+                  
                   type="text"
                   icon={<EditOutlined size={12} />}
                   size="small"
@@ -184,16 +163,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   </Form>
                 </CustomDrawer>
                 <button
-                  onClick={() => deleteTicketHandler(row.ticketId)}
+                
+                  onClick={() => onDeleteTicket(row.ticketId)}
                   className=" mx-3 px-3 rounded-lg"
                 >
                   <DeleteOutlined color="red" />
                 </button>
-                <button
-                  onClick={() => alertUserHandler("Notification working well")}
-                >
-                  Notify
-                </button>
+                
                 <ToastContainer />
                 {/* <CustomDrawer buttonContent="" icon={<DeleteOutlined />} myFunc={()=>deleteTicketHandler(row.ticketId)}></CustomDrawer> */}
               </CustomOptions>

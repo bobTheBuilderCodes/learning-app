@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 import {useRouter} from 'next/navigation'
 
 import { Col, Form, Input, Row, Select } from "antd";
+import { alertUserHandler } from "@/helpers/alertUserHandler";
 
 
 
@@ -97,10 +98,32 @@ const StudentTickets = () => {
 
 
 
+   const deleteTicketHandler = async(id: string) => {
+    await postData({
+       method: "DELETE",
+       url: `${api.deleteTicket}/${id}`,
+       payload: {
+         ticketId: id,
+       },
+       authToken: accessToken
+       // message: "Ticket deleted successfully",
+     });
+     // router.refresh()
+     
+     alertUserHandler("Ticket has been deleted successfully");
+   };
 
 
+  const editTicketHandler = async(id: string) => {
+    await postData({
+      method: "PATCH",
+      url: `${api.editTicket}/${id}`,
+      payload: formData,
+      authToken: accessToken,
+      message: "Ticket edited successfully",
+    });
 
-
+  }
   
 
   return (
@@ -163,7 +186,8 @@ const StudentTickets = () => {
           totalItems={10}
           onPageChange={() => {}}
           columns={columns}
-          data={tickets} 
+          data={tickets} onDeleteTicket={deleteTicketHandler} 
+          onEditTicket={editTicketHandler}
         />
       ) : (
         <Spinner />

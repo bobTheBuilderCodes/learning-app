@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { postData,  getData } from "@/libs/getData";
 import { api } from "@/libs/endpoints";
+import { useSession } from "next-auth/react";
 
 interface IProps extends ButtonProps {
   children?: ReactNode;
@@ -69,6 +70,9 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
   };
 
   // New Code
+  const authData = useSession();
+
+  const accessToken = authData?.data?.user?.accessToken!;
 
   const addStudentHandler = async () => {
     const payload = {
@@ -85,7 +89,7 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
 
     onClose();
    
-    postData({url: api.createStudent, payload, message: "Student created successfully"})
+    postData({url: api.createStudent, payload, message: "Student created successfully", authToken: accessToken })
     
     getData(api.allStudents);
   };
