@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface TableColumn {
   title: string;
@@ -54,13 +55,14 @@ const CustomTable: React.FC<CustomTableProps> = ({
   });
 
   const { ticketName, reason, ticketItem } = formData;
+  const authData = useSession();
+  const accessToken = authData?.data?.user?.accessToken!;
+  const router = useRouter()
 
   const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const [fetchedTickets, setFetchedTickets] = useState([])
- 
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -68,49 +70,35 @@ const [fetchedTickets, setFetchedTickets] = useState([])
     }
   };
 
-  const deleteTicketHandler = (id: string) => {
-    postData({
+  const deleteTicketHandler = async(id: string) => {
+   await postData({
       method: "DELETE",
       url: `${api.deleteTicket}/${id}`,
       payload: {
         ticketId: id,
       },
+      authToken: accessToken
       // message: "Ticket deleted successfully",
     });
+    // router.refresh()
+    
     alertUserHandler("Ticket has been deleted successfully");
   };
 
   // const alertUserHandler = () => toast("Ticket Deleted Successfully");
 
-  const editTicketHandler = (id: string) => {
-    postData({
+  const editTicketHandler = async(id: string) => {
+    await postData({
       method: "PATCH",
-      url: `${api.deleteTicket}/${id}`,
+      url: `${api.editTicket}/${id}`,
       payload: formData,
+      authToken: accessToken,
       message: "Ticket edited successfully",
     });
     
+    // router.refresh()
   };
-  const authData = useSession();
 
-  console.log("Token !", authData?.data?.user?.accessToken!);
-  console.log("Token", authData?.data?.user?.accessToken);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const studentTickets = await getData(
-        `${api.getStudentTickets}/${authData.data?.user.rollId}`,
-        authData?.data?.user?.accessToken!
-      );
-      setFetchedTickets(studentTickets?.studentTickets);
-      console.log("Get ticket", studentTickets.studentTickets);
-      console.log("State tickets", fetchedTickets)
-    };
-
-    fetchUsers();
-  }, []);
-
-  // console.log("Ticket details", currentTicket());
 
   return (
     <table className="w-[100%] text-left">

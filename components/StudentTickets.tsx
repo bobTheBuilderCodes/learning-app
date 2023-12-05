@@ -12,29 +12,17 @@ import Container from "./Container";
 import { useParams } from "next/navigation";
 import {useRouter} from 'next/navigation'
 
-import { Alert, Col, Form, Input, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select } from "antd";
 
-const { TextArea } = Input;
+
 
 const StudentTickets = () => {
-  const [tickets, setTickets] = useState<null | []>([]);
+  const [tickets, setTickets] = useState([]);
+  const authData = useSession();
   const { userId } = useParams();
   const router = useRouter()
 
-  // const fetchTickets = async () => {
-  //   const loggedInUserTickets = `${api.studentTickets}/${userId}`;
-  //   const data = await getData(loggedInUserTickets);
-  //   setTickets(data.studentTickets);
-  // };
-  const getStudentTickets = async () => {
-    const loggedInUserTickets = `${api.getStudentTickets}/${userId}`;
-    const data = await getData(loggedInUserTickets);
-    setTickets(data.studentTickets);
-  };
 
-  useEffect(() => {
-    getStudentTickets();
-  }, []);
 
 
   // Handle Forms
@@ -79,12 +67,40 @@ const StudentTickets = () => {
     },
   ];
 
-  const addTicketHandler = () =>  {
 
-    postData({url: `${api.postTicket}/${userId}`, payload: formData, message: "Ticket raised successfully" })
+  const accessToken = authData?.data?.user?.accessToken!;
+
+  useEffect(() => {
+    const getTickets = async () => {
+      const userId = authData.data?.user.rollId;
+
+      const studentTickets = await getData(
+        `${api.getTickets}/${userId}`,
+        accessToken
+      );
+      setTickets(studentTickets?.studentTickets);
+      console.log("Get ticket", studentTickets.studentTickets);
+      console.log("State tickets", tickets);
+    };
+
+    getTickets();
+  }, []);
+
+
+  const addTicketHandler = async() =>  {
+
+    await postData({url: `${api.postTicket}/${userId}`, payload: formData, 
+    authToken: accessToken , message: "Ticket raised successfully" })
     // onclose()
     // router.refresh()
   }
+
+
+
+
+
+
+
   
 
   return (

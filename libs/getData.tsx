@@ -2,7 +2,7 @@ export async function getData(url: string, authToken?: string) {
   const headers = {
     'Authorization': `Bearer ${authToken}`,
     'Content-Type': 'application/json', 
-    'cache': 'no-cache'
+    'cache': 'no-store'
   };
   const res = await fetch(url, {headers });
 
@@ -14,6 +14,7 @@ interface IPostData {
   url: string;
   payload: any;
   message?: string;
+  authToken: string
 }
 
 interface IGetSingleData {
@@ -23,15 +24,16 @@ interface IGetSingleData {
 
 export async function postData({
   method = "POST",
-  url,
+  url, authToken,
   payload,
   message,
 }: IPostData) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch((url), {
       method,
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${authToken}`,
       },
       body: JSON.stringify(payload),
     });
