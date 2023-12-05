@@ -1,22 +1,30 @@
-import CustomTab from "@/shared/CustomTabs";
-import Stepback from "@/components/Stepback";
-import Heading from "@/constants/Heading";
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
-import { api } from "@/libs/endpoints";
-import { getQuotes, getSingleData, getData } from "@/libs/getData";
-import { studentTabs, studentTabsContent } from "@/shared/tabs";
+import React from "react";
+
+// Antd Components
 import { Avatar } from "antd";
 
-import React from "react";
+// Components
+import CustomTab from "@/shared/CustomTabs";
+import Stepback from "@/components/Stepback";
+import Paragraph from "@/constants/Paragraph";
+import SubHeading from "@/constants/SubHeading";
+
+// Libs and Utils
+import { api } from "@/libs/endpoints";
+import { getQuotes, getSingleData } from "@/libs/getData";
+import { studentTabs, studentTabsContent } from "@/shared/tabs";
 
 interface IProps {
   params: {
     userId: string;
   };
 }
+
 export default async function SingleUser({ params }: IProps) {
-  const user = await getSingleData({url: api.singleStudent, dataId: params.userId});
+  const user = await getSingleData({
+    url: api.singleStudent,
+    dataId: params.userId,
+  });
   const { firstName, middleName, lastName, email } = user.findStudent;
 
   // motivational quotes

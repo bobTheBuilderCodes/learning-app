@@ -1,45 +1,51 @@
 "use client";
 
-import { api } from "@/libs/endpoints";
-import { postData, getData } from "@/libs/getData";
 import React, { useEffect, useState } from "react";
-import CustomTable from "./CustomTable";
-import Spinner from "./Spinner";
-import InputField from "@/shared/InputField";
-import { useSession } from "next-auth/react";
-import CustomDrawer from "./Drawer";
-import Container from "./Container";
-import { useParams } from "next/navigation";
-import {useRouter} from 'next/navigation'
 
+//Components
+import CustomTable from "./CustomTable";
+import Container from "./Container";
+import CustomDrawer from "./Drawer";
+import InputField from "@/shared/InputField";
+import Spinner from "./Spinner";
+
+//Antd components
 import { Col, Form, Input, Row, Select } from "antd";
 
+
+//Utils and Libs
+import { api } from "@/libs/endpoints";
+import { postData, getData } from "@/libs/getData";
+import { useParams } from "next/navigation";
+
+//Hooks
+import { useSession } from "next-auth/react";
+
+//Third party  library
+import { alertUserHandler } from "@/helpers/alertUserHandler";
 
 
 const StudentTickets = () => {
   const [tickets, setTickets] = useState([]);
   const authData = useSession();
   const { userId } = useParams();
-  const router = useRouter()
-
-
-
+  const accessToken = authData?.data?.user?.accessToken!;
+  
 
   // Handle Forms
   const [formData, setFormData] = useState({
     ticketName: "",
     reason: "",
     ticketItem: "",
-    ticketDate: new Date()
+    ticketDate: new Date(),
   });
 
-  const { ticketName, reason , ticketItem} = formData;
+  const { ticketName, reason, ticketItem } = formData;
 
   const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
@@ -68,40 +74,63 @@ const StudentTickets = () => {
   ];
 
 
-  const accessToken = authData?.data?.user?.accessToken!;
+  //Get all tickets
+  const getTickets = async () => {
+    const userId = authData.data?.user.rollId;
+    const studentTickets = await getData(
+      `${api.getTickets}/${userId}`,
+      accessToken
+    );
+    setTickets(studentTickets?.studentTickets);
+  };
+
 
   useEffect(() => {
-    const getTickets = async () => {
-      const userId = authData.data?.user.rollId;
-
-      const studentTickets = await getData(
-        `${api.getTickets}/${userId}`,
-        accessToken
-      );
-      setTickets(studentTickets?.studentTickets);
-      console.log("Get ticket", studentTickets.studentTickets);
-      console.log("State tickets", tickets);
-    };
-
     getTickets();
   }, []);
 
+  //Add new ticket
+  const addTicketHandler = async () => {
+     await postData({
+      url: `${api.postTicket}/${userId}`,
+      payload: formData,
+      authToken: accessToken,
+    });
+    alertUserHandler("Your ticket has been sent to the admin for approval");
+    getTickets();
+  };
 
-  const addTicketHandler = async() =>  {
+  // Delete ticket
+  const deleteTicketHandler = async (id: string) => {
+    try {
+      await postData({
+        method: "DELETE",
+        url: `${api.deleteTicket}/${id}`,
+        payload: {
+          ticketId: id,
+        },
+        authToken: accessToken,
+      });
 
-    await postData({url: `${api.postTicket}/${userId}`, payload: formData, 
-    authToken: accessToken , message: "Ticket raised successfully" })
-    // onclose()
-    // router.refresh()
-  }
+      getTickets();
+      alertUserHandler("Ticket has been deleted successfully");
+    } catch (error) {
+      alertUserHandler("Something went wrong");
+      console.log(error);
+    }
+  };
 
-
-
-
-
-
-
-  
+  //Edit existing ticket
+  const editTicketHandler = async (id: string) => {
+    await postData({
+      method: "PATCH",
+      url: `${api.editTicket}/${id}`,
+      payload: formData,
+      authToken: accessToken,
+    });
+    getTickets();
+    alertUserHandler("Your ticket has been edited successfully");
+  };
 
   return (
     <div>
@@ -125,33 +154,46 @@ const StudentTickets = () => {
           />
 
           <CustomDrawer
-            title="Create New Ticket" type="primary"
-            buttonContent="Add New Ticket"  myFunc={addTicketHandler}
+            title="Create New Ticket"
+            type="primary"
+            buttonContent="Add New Ticket"
+            myFunc={addTicketHandler}
           >
             <Form layout="vertical">
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item name="ticketName" label="Title">
-                    <Input placeholder="Enter request title" name="ticketName" value={ticketName} onChange={formDataHandler} />
+                    <Input
+                      placeholder="Enter request title"
+                      name="ticketName"
+                      value={ticketName}
+                      onChange={formDataHandler}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item name="ticketItem" label="Ticket Item">
-                   
-                    <Input placeholder="Enter item name" name="ticketItem" value={ticketItem} onChange={formDataHandler} />
+                    <Input
+                      placeholder="Enter item name"
+                      name="ticketItem"
+                      value={ticketItem}
+                      onChange={formDataHandler}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item name="reason" label="Reason">
-                  <Input placeholder="Enter reason" name="reason" value={reason} onChange={formDataHandler} />
+                    <Input
+                      placeholder="Enter reason"
+                      name="reason"
+                      value={reason}
+                      onChange={formDataHandler}
+                    />
                   </Form.Item>
                 </Col>
-                
               </Row>
-
-
             </Form>
           </CustomDrawer>
         </div>
@@ -163,8 +205,47 @@ const StudentTickets = () => {
           totalItems={10}
           onPageChange={() => {}}
           columns={columns}
-          data={tickets} 
-        />
+          data={tickets}
+          onDeleteTicket={deleteTicketHandler}
+          onEditTicket={editTicketHandler}
+        >
+          <Form layout="vertical">
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item name="ticketName" label="Title">
+                  <Input
+                    placeholder="Enter request title"
+                    name="ticketName"
+                    value={ticketName}
+                    onChange={formDataHandler}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="ticketItem" label="Ticket Item">
+                  <Input
+                    placeholder="Enter item name"
+                    name="ticketItem"
+                    value={ticketItem}
+                    onChange={formDataHandler}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item name="reason" label="Reason">
+                  <Input
+                    placeholder="Enter reason"
+                    name="reason"
+                    value={reason}
+                    onChange={formDataHandler}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </CustomTable>
       ) : (
         <Spinner />
       )}

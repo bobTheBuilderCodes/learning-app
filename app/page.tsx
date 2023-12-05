@@ -3,29 +3,23 @@
 import CustomButton from "@/shared/CustomButton";
 import InputField from "@/shared/InputField";
 import Heading from "@/constants/Heading";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Alert, Button, Form, Input, Radio, Switch } from "antd";
+import { Alert, Button, Form } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-type RequiredMark = boolean | "optional";
+import { alertUserHandler } from "@/helpers/alertUserHandler";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   const [form] = Form.useForm();
-  const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  const toggleSwitch = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-  };
-
-  const [userType, setUserType] = useState("");
-
+  const session = useSession();
+  const router = useRouter();
+  const { status, data } = useSession();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -63,17 +57,9 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-    console.log("status", status);
   };
 
-  const session = useSession();
-  const router = useRouter();
-  const { status, data } = useSession();
-
-  // const alertUserHandler = () => toast("Ticket Deleted Successfully");
-
   useEffect(() => {
-    console.log("Status", status);
     if (status === "authenticated" && data.user.rollId) {
       router.push("/dashboard");
       setError(false);
@@ -88,15 +74,18 @@ export default function Home() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setUserType(e.target.value);
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
-      {error && 
-      <Alert message="Invalid credentials. Please try again!" className="mb-4" type="error" showIcon />}
-      
-    
+      {error && (
+       
+        <Alert
+          message="Invalid credentials. Please try again!"
+          className="mb-4"
+          type="error"
+          showIcon
+        />
+      )}
+
       <Form
         onFinish={onFinish}
         form={form}

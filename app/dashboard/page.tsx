@@ -1,23 +1,16 @@
-// import getUsers from "@/api";
+
 "use client";
-import Announcement from "@/components/Announcement";
-import AvatarsGroup from "@/components/AvatarGroup";
-import Event from "@/components/Event";
-import Notification from "@/components/Notification";
-import Heading from "@/constants/Heading";
-import { signIn, useSession, signOut } from "next-auth/react";
+
 import React from "react";
+import Heading from "@/constants/Heading";
+
 
 export default function Home() {
-  const { data: session } = useSession();
-
-  
-
 
   return (
     <div className="flex h-[100%] w-[100%] bg-white">
       <div className="w-1/4"></div>
-      <div className="w-2/4 h-[100%] border-l-2 border-gray-100 bg-gray-500">
+      <div className="w-2/4 h-[100%] border-l-2 border-gray-100 bg-gray-100">
       
       </div>
       <div className="w-1/4 border-l-2 border-gray-100 bg-white">

@@ -1,18 +1,3 @@
-// import { UserOutlined } from "@ant-design/icons";
-// import React from "react";
-// import { Avatar, Space } from "antd";
-
-// const url =
-//   "https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg";
-
-// const Avatars = () => (
-//   <Space size={16} wrap>
-//     <Avatar style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}>U</Avatar>
-//   </Space>
-// );
-
-// export default Avatars;
-
 import React, { useState } from "react";
 import { Avatar, Menu, Dropdown } from "antd";
 import { useSession, signOut } from "next-auth/react";
@@ -39,7 +24,7 @@ const Avatars = () => {
       <SubHeading>Welcome, {session.data?.user.loggedInUser}</SubHeading>
       <Dropdown
         overlay={menu}
-        // menu={menu}
+      //  menu={menu}
         trigger={["click"]}
         open={dropdownVisible}
         onOpenChange={(visible) => setDropdownVisible(visible)}
