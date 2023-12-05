@@ -1,15 +1,15 @@
+import { ReactNode, useState } from "react";
 
+//Components
 import CustomOptions from "./CustomOptions";
-import { api } from "@/libs/endpoints";
 import CustomDrawer from "./Drawer";
+
+//Antd Components
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { Alert, Col, Form, Input, Row, Select } from "antd";
-import { useEffect, useState } from "react";
+
+//Third Party Libraries
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { alertUserHandler } from "@/helpers/alertUserHandler";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 interface TableColumn {
   title: string;
@@ -29,6 +29,7 @@ interface CustomTableRow {
 }
 
 interface CustomTableProps {
+  children: ReactNode
   columns: TableColumn[];
   data?: CustomTableRow[];
   totalItems: number;
@@ -40,6 +41,7 @@ interface CustomTableProps {
 }
 
 const CustomTable: React.FC<CustomTableProps> = ({
+  children,
   columns,
   data,
   totalItems,
@@ -64,18 +66,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       onPageChange(newPage);
     }
   };
-
-  
-
-  // const alertUserHandler = () => toast("Ticket Deleted Successfully");
-
-
 
   return (
     <table className="w-[100%] text-left">
@@ -113,65 +108,24 @@ const CustomTable: React.FC<CustomTableProps> = ({
             ))}
             <td>
               <CustomOptions className="justify-end mx-3">
-                {/* <button className="mr-5" onClick={()=>editTicketHandler(row.ticketId)}>Edit</button> */}
                 <CustomDrawer
                   buttonContent=""
                   buttonType="text"
                   title="Edit Ticket Request"
-                  onClick={()=> onEditTicket(row.ticketId)}
-                  // myFunc={() => editTicketHandler(row.ticketId)}
-                  
+                  myFunc={() => onEditTicket(row.ticketId)}
                   type="text"
                   icon={<EditOutlined size={12} />}
                   size="small"
                 >
-                  <Form layout="vertical">
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item name="ticketName" label="Title">
-                          <Input
-                            placeholder="Enter request title"
-                            name="ticketName"
-                            value={ticketName}
-                            onChange={formDataHandler}
-                          />
-                        </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <Form.Item name="ticketItem" label="Ticket Item">
-                          <Input
-                            placeholder="Enter item name"
-                            name="ticketItem"
-                            value={ticketItem}
-                            onChange={formDataHandler}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                    <Row gutter={16}>
-                      <Col span={12}>
-                        <Form.Item name="reason" label="Reason">
-                          <Input
-                            placeholder="Enter reason"
-                            name="reason"
-                            value={reason}
-                            onChange={formDataHandler}
-                          />
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Form>
+                 {children}
                 </CustomDrawer>
                 <button
-                
                   onClick={() => onDeleteTicket(row.ticketId)}
-                  className=" mx-3 px-3 rounded-lg"
+                  className="mx-3 px-3 rounded-lg"
                 >
                   <DeleteOutlined color="red" />
                 </button>
-                
                 <ToastContainer />
-                {/* <CustomDrawer buttonContent="" icon={<DeleteOutlined />} myFunc={()=>deleteTicketHandler(row.ticketId)}></CustomDrawer> */}
               </CustomOptions>
             </td>
           </tr>

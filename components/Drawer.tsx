@@ -1,65 +1,32 @@
 "use client";
-import React, { useState, ReactNode, useEffect, ChangeEvent } from "react";
-import type { DatePickerProps } from "antd";
+
+import React, { useState, ReactNode } from "react";
+
+//Antd icons
 import { PlusOutlined } from "@ant-design/icons";
-import {
- 
-  Button,
-  ButtonProps,
-  
-  Drawer,
-  
-  Space,
-} from "antd";
-import { postData,  getData } from "@/libs/getData";
-import { api } from "@/libs/endpoints";
-import { useSession } from "next-auth/react";
+
+//Antd components
+import { Button, ButtonProps, Drawer, Space } from "antd";
 
 interface IProps extends ButtonProps {
   children?: ReactNode;
   width?: number;
   buttonContent: string;
-  title?: string,
-  icon?: React.ReactElement,
+  title?: string;
+  icon?: React.ReactElement;
   buttonType?: "link" | "text" | "default" | "primary" | "dashed" | undefined;
-  myFunc?: ()=>void
+  myFunc?: () => void;
 }
 
-// Form Data
-
-
-
-const CustomDrawer = ({ children, width, buttonContent , title="Create New", myFunc, icon=<PlusOutlined />, buttonType = "primary"}: IProps) => {
+const CustomDrawer = ({
+  children,
+  buttonContent,
+  title = "Create New",
+  myFunc,
+  icon = <PlusOutlined />,
+  buttonType = "primary",
+}: IProps) => {
   const [open, setOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    gender: "",
-    dateOfBirth: "",
-    admissionDate: "",
-    guardianName: "",
-  });
-
-  const {
-    firstName,
-    lastName,
-    email,
-    gender,
-    dateOfBirth,
-    admissionDate,
-    guardianName,
-  } = formData;
-
-  // alert(firstName);
-
-  useEffect(() => {
-    getData(api.allStudents);
-  }, []);
-
-  const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const showDrawer = () => {
     setOpen(true);
@@ -69,39 +36,9 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
     setOpen(false);
   };
 
-  // New Code
-  const authData = useSession();
-
-  const accessToken = authData?.data?.user?.accessToken!;
-
-  const addStudentHandler = async () => {
-    const payload = {
-      username: "Amasaman",
-      firstName,
-      lastName,
-      email,
-      password: "ama@123",
-      gender: "female",
-      dateOfBirth: "2001-02-04",
-      admissionDate: "2019-09-07",
-      guardianName: "Charles Taylor",
-    };
-
-    onClose();
-   
-    postData({url: api.createStudent, payload, message: "Student created successfully", authToken: accessToken })
-    
-    getData(api.allStudents);
-  };
-
   return (
     <>
-      <Button
-        size="large"
-        type={buttonType}
-        onClick={showDrawer}
-        icon={icon}
-      >
+      <Button size="large" type={buttonType} onClick={showDrawer} icon={icon}>
         {buttonContent}
       </Button>
       <Drawer
@@ -120,7 +57,7 @@ const CustomDrawer = ({ children, width, buttonContent , title="Create New", myF
         }
       >
         {children}
-        </Drawer>
+      </Drawer>
     </>
   );
 };
