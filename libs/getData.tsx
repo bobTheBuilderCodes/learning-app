@@ -1,3 +1,5 @@
+import { alertUserHandler } from "@/helpers/alertUserHandler";
+
 export async function getData(url: string, authToken?: string) {
   const headers = {
     'Authorization': `Bearer ${authToken}`,
@@ -26,7 +28,6 @@ export async function postData({
   method = "POST",
   url, authToken,
   payload,
-  message,
 }: IPostData) {
   try {
     const response = await fetch((url), {
@@ -40,6 +41,7 @@ export async function postData({
 
     const result = await response.json();
     console.log(result);
+    alertUserHandler(result?.message);
   } catch (error) {
     console.log(error);
   }
