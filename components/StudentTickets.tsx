@@ -91,19 +91,24 @@ const StudentTickets = () => {
 
   //Add new ticket
   const addTicketHandler = async () => {
-     await postData({
-      url: `${api.postTicket}/${userId}`,
-      payload: formData,
-      authToken: accessToken,
-    });
-    alertUserHandler("Your ticket has been sent to the admin for approval");
-    getTickets();
+    try {
+      await postData({
+        url: `${api.postTicket}/${userId}`,
+        payload: formData,
+        authToken: accessToken,
+      });
+      // alertUserHandler("Your ticket has been sent to the admin for approval");
+      getTickets();
+    } catch (error) {
+      console.log(error)
+    }
+     
   };
 
   // Delete ticket
   const deleteTicketHandler = async (id: string) => {
     try {
-      await postData({
+      const res = await postData({
         method: "DELETE",
         url: `${api.deleteTicket}/${id}`,
         payload: {
@@ -111,25 +116,30 @@ const StudentTickets = () => {
         },
         authToken: accessToken,
       });
-
       getTickets();
-      alertUserHandler("Ticket has been deleted successfully");
+      // alertUserHandler("Ticket has been deleted successfully");
     } catch (error) {
-      alertUserHandler("Something went wrong");
+      // alertUserHandler("Something went wrong");
       console.log(error);
     }
   };
 
   //Edit existing ticket
   const editTicketHandler = async (id: string) => {
-    await postData({
-      method: "PATCH",
-      url: `${api.editTicket}/${id}`,
-      payload: formData,
-      authToken: accessToken,
-    });
-    getTickets();
-    alertUserHandler("Your ticket has been edited successfully");
+    try {
+      await postData({
+        method: "PATCH",
+        url: `${api.editTicket}/${id}`,
+        payload: formData,
+        authToken: accessToken,
+      });
+      getTickets();
+      
+    } catch (error) {
+      console.log(error)
+    }
+    
+    // alertUserHandler("Your ticket has been edited successfully");
   };
 
   return (
