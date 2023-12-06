@@ -21,7 +21,7 @@ interface IPostData {
 
 interface IGetSingleData {
   url: string,
-  dataId: string
+  dataId: string | string[]
 }
 
 export async function postData({
@@ -41,7 +41,7 @@ export async function postData({
 
     const result = await response.json();
     console.log(result);
-    alertUserHandler(result?.message);
+    alertUserHandler(result?.message || "Successful");
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +52,7 @@ export async function postData({
 export async function getSingleData(
   {url, dataId}: IGetSingleData
 ){
-  const res = await fetch(`${url}${dataId}`);
+  const res = await fetch(`${url}/${dataId}`);
 
   return res.json();
 }

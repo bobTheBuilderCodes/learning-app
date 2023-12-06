@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomVerticalTabs from "@/shared/CustomVerticalTabs";
 import { studentProfileInfo, studentProfileVerticalTabs } from "@/shared/tabs";
 
@@ -19,8 +19,18 @@ import type { DatePickerProps } from "antd";
 import SubHeading from "@/constants/SubHeading";
 import Paragraph from "@/constants/Paragraph";
 import Heading from "@/constants/Heading";
+import { getSingleData, postData } from "@/libs/getData";
+import { api } from "@/libs/endpoints";
+import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { alertUserHandler } from "@/helpers/alertUserHandler";
 
 const StudentProfile = () => {
+  const [currentStudentData, setCurrentStudentData] = useState('');
+  const router = useRouter();
+  const params = useParams();
+  const authData = useSession();
+  const accessToken = authData?.data?.user?.accessToken!;
   //New student form data
   const [formData, setFormData] = useState({
     username: "",
@@ -65,6 +75,40 @@ const StudentProfile = () => {
   const onChangeToggle = (checked: boolean) => {
     console.log(`switch to ${checked}`);
   };
+
+  // Delete student
+  const deleteStudenttHandler = async (id: string) => {
+    try {
+      await postData({
+        method: "DELETE",
+        url: `${api.deleteStudent}/${id}`,
+        payload: {
+          studentId: id,
+        },
+        authToken: accessToken,
+      });
+      alertUserHandler(`Student deleted successfully`)
+      router.back();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Find
+
+  const getCurrentUser = async () => {
+    const response = await getSingleData({
+      url: api.singleStudent,
+      dataId: params.userId,
+    });
+    setCurrentStudentData(response.findStudent?.rollId);
+  };
+
+  
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+  console.log("Current user data", currentStudentData);
 
   return (
     <div className="flex">
@@ -273,7 +317,6 @@ const StudentProfile = () => {
               Student
             </span>
           </Paragraph>
-          
         </div>
         <hr />
         <div className="bg-gray-100 p-3 rounded-md mt-6 mb-6">
@@ -285,36 +328,34 @@ const StudentProfile = () => {
             </label>
             <Switch defaultChecked onChange={onChangeToggle} />
           </div>
-          <Button danger type="primary" className="my-4">
+          <Button
+            danger
+            type="primary"
+            className="my-4"
+            onClick={() => deleteStudenttHandler(currentStudentData)}
+          >
             Delete Account{" "}
           </Button>
         </div>
         <hr />
         {/* Emergency Contact */}
         <div className="bg-gray-100 p-3 rounded-md mt-8">
-          <SubHeading className="font-semibold mb-3">Emergency Information</SubHeading>
+          <SubHeading className="font-semibold mb-3">
+            Emergency Information
+          </SubHeading>
 
           <div className="mb-2">
             <label htmlFor="guardianName" className="mr-12 text-[16px]">
               Guardian Name
             </label>
-            <Input
-              readOnly
-                className="mt-2"
-                value={"Jason Statan"}
-                
-              />
+            <Input readOnly className="mt-2" value={"Jason Statan"} />
           </div>
-        
+
           <div className="mb-2">
             <label htmlFor="guardianContact" className="mr-12 text-[16px] mb-4">
               Guardian Contact
             </label>
-            <Input className="mt-2"
-              readOnly
-                value={"055 643 5643"}
-                
-              />
+            <Input className="mt-2" readOnly value={"055 643 5643"} />
           </div>
         </div>
       </div>

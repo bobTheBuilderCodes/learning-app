@@ -4,7 +4,8 @@ export const api = {
 
   // Students Details
   allStudents: `${baseUrl}/students/allStudents`,
-  singleStudent: `${baseUrl}/students/`,
+  singleStudent: `${baseUrl}/students`,
+  deleteStudent: `${baseUrl}/students`,
 
   // Tickets
   allTickets: `${baseUrl}/ticket/allTickets`,
