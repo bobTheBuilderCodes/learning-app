@@ -14,7 +14,7 @@ const Error = () => {
       <Heading>
         Sorry , could not load students.
         </Heading>
-        <Button onClick={()=>router.refresh()} type='primary'>Reload Page</Button>
+        <Button onClick={()=>router.back()} type='primary'>Reload Page</Button>
     </div>
   )
 }

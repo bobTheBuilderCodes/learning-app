@@ -13,7 +13,6 @@ import { api } from "@/libs/endpoints";
 import Link from "next/link";
 
 //Ant D Components
-//Antd components
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
 import type { DatePickerProps } from 'antd';
 

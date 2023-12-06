@@ -8,7 +8,7 @@ interface IProps {
 
 const Paragraph = ({ children, className, ...otherProps }: IProps) => {
   return (
-    <p className={`m-0 text-sm opacity-20 ${className}`} {...otherProps}>
+    <p className={`m-0 text-sm opacity-20 text-[16px] ${className}`} {...otherProps}>
       {children}
     </p>
   );
