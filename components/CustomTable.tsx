@@ -36,6 +36,7 @@ interface CustomTableProps {
   itemsPerPage: number;
   currentPage: number;
   onPageChange: (newPage: number) => void;
+  onAddItem?: () => void;
   onDeleteTicket: (id: string) => void;
   onEditTicket: (id: string) => void;
 }
@@ -47,24 +48,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
   totalItems,
   itemsPerPage,
   currentPage,
-  onPageChange,
+  onPageChange, onAddItem,
   onDeleteTicket,
   onEditTicket,
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const [formData, setFormData] = useState({
-    ticketName: "",
-    reason: "",
-    ticketItem: "",
-    ticketDate: new Date(),
-  });
-
-  const { ticketName, reason, ticketItem } = formData;
-
-  const formDataHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -115,7 +104,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   myFunc={() => onEditTicket(row.ticketId)}
                   type="text"
                   icon={<EditOutlined size={12} />}
-                  size="small"
+                  size="small" 
+                  onClick={onAddItem}
                 >
                  {children}
                 </CustomDrawer>

@@ -20,6 +20,8 @@ import type { DatePickerProps } from 'antd';
 // Hooks
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Loading from "./loading";
+import EmptyState from "@/components/EmptyState";
 
 export default function Students() {
   const [users, setUsers] = useState<allStudents | null>(null);
@@ -30,7 +32,7 @@ export default function Students() {
 
   //New student form data
   const [formData, setFormData] = useState({
-    userName: "",
+    username: "",
     firstName: "",
     middleName: "",
     lastName: "",
@@ -38,16 +40,16 @@ export default function Students() {
     password: "",
     GPS: "",
     location: "",
-    gender: "",
-    dateOfBirth: "",
-    admissionDate: "",
+    gender: "male",
+    dateOfBirth: "2000-02-10",
+    admissionDate: "2020-09-09",
     guardianName: "",
     guardianNumber: "",
     guardianRelationship: "",
   });
 
   const {
-    userName,
+    username,
     firstName,
     middleName,
     lastName,
@@ -55,7 +57,7 @@ export default function Students() {
     password,
     GPS,
     guardianName,
-    guardianNumber,
+    guardianNumber, admissionDate,
     guardianRelationship,
     location,
   } = formData;
@@ -78,29 +80,23 @@ export default function Students() {
     getStudents();
   }, []);
 
-  // Add new student
-  const addStudentHandler = async () => {
-    const payload = {
-      username: "Amasaman",
-      firstName,
-      lastName,
-      email,
-      password: "ama@123",
-      gender: "female",
-      dateOfBirth: "2001-02-04",
-      admissionDate: "2019-09-07",
-      guardianName: "Charles Taylor",
+
+    //Add new student
+    const addStudentHandler = async () => {
+      try {
+        await postData({
+          url: api.createStudent,
+          payload: formData,
+          authToken: accessToken,
+        });
+        getStudents();
+        console.log("Student data", formData)
+      } catch (error) {
+        console.log(error)
+      }      
     };
 
-    postData({
-      url: api.createStudent,
-      payload,
-      message: "Student created successfully",
-      authToken: accessToken,
-    });
 
-    getData(api.allStudents);
-  };
   return (
     <>
       <Container className="mt-8 justify-between">
@@ -113,15 +109,20 @@ export default function Students() {
           {currentUser?.userRole !== "admin" ? (
             ""
           ) : (
-            <CustomDrawer buttonContent="Add New Student">
+            <CustomDrawer 
+            title="Add New Student"
+            type="primary"
+            buttonContent="Add New Student"
+            myFunc={addStudentHandler}
+            >
               <Form layout="vertical">
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item name="userName" label="User Name">
+                    <Form.Item name="username" label="User Name">
                       <Input
                         placeholder="Enter username"
-                        name="userName"
-                        value={userName}
+                        name="username"
+                        value={username}
                         onChange={formDataHandler}
                       />
                     </Form.Item>
@@ -152,7 +153,7 @@ export default function Students() {
                     <Form.Item name="lastName" label="Last Name">
                       <Input
                         placeholder="Enter last name"
-                        name="lastNamme"
+                        name="lastName"
                         value={lastName}
                         onChange={formDataHandler}
                       />
@@ -228,7 +229,7 @@ export default function Students() {
                 <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item name="admissionDate" label="Admission Date">
-                    <DatePicker className="w-full" />
+                    <DatePicker className="w-full"  />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -311,7 +312,7 @@ export default function Students() {
       </Container>
 
       <Container className="mx-6">
-        {users?.students?.map(
+        {users?.students  ? users?.students?.map(
           ({ rollId, firstName, middleName, lastName, email }) => (
             <Link href={`/dashboard/students/${rollId}`} key={rollId}>
               <CustomCard
@@ -320,7 +321,7 @@ export default function Students() {
               />
             </Link>
           )
-        )}
+        ) : <Loading />}
       </Container>
     </>
   );

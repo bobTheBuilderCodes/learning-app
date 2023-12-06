@@ -155,7 +155,7 @@ const StudentTickets = () => {
           />
 
           <CustomDrawer
-            title="Create New Ticket"
+            title="Add New Ticket"
             type="primary"
             buttonContent="Add New Ticket"
             myFunc={addTicketHandler}

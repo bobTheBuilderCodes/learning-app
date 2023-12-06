@@ -41,7 +41,7 @@ export default function Home() {
 
       // Throw error here
 
-      if (status === "unauthenticated" || !data?.user.rollId) {
+      if (status === "unauthenticated" || !data?.user.accessToken) {
         router.push("/");
         setError(true);
         setTimeout(() => {
@@ -61,12 +61,12 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (status === "authenticated" && data.user.rollId) {
+    if (status === "authenticated" && data.user.accessToken) {
       router.push("/dashboard");
       setError(false);
     }
 
-    if (status === "unauthenticated" || !data?.user.rollId) {
+    if (status === "unauthenticated" || !data?.user.accessToken) {
       router.push("/");
     }
   }, [session.data?.user, status]);
