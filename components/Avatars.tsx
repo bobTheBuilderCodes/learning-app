@@ -3,15 +3,17 @@ import { Avatar, Menu, Dropdown } from "antd";
 import { useSession, signOut } from "next-auth/react";
 import Paragraph from "@/constants/Paragraph";
 import SubHeading from "@/constants/SubHeading";
+import Link from "next/link";
 
 const Avatars = () => {
   const session = useSession();
+  const rollId = session.data?.user.rollId
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const menu = (
     <Menu className="">
       <Menu.Item key="1" className="mr-8 p-2">
-        <a href="/dashboard/profile">Profile</a>
+        <Link href={`/dashboard/students/${rollId}`}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="2" onClick={() => signOut({ callbackUrl: "/" })}>
         Log out

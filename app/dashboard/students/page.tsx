@@ -19,8 +19,10 @@ import type { DatePickerProps } from 'antd';
 // Hooks
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import {useRouter} from 'next/navigation'
 import Loading from "./loading";
 import EmptyState from "@/components/EmptyState";
+import { alertUserHandler } from "@/helpers/alertUserHandler";
 
 export default function Students() {
   const [users, setUsers] = useState<allStudents | null>(null);
@@ -28,6 +30,7 @@ export default function Students() {
   const currentUser = user?.user;
   const authData = useSession();
   const accessToken = authData?.data?.user?.accessToken!;
+  const router = useRouter()
 
   //New student form data
   const [formData, setFormData] = useState({
@@ -89,11 +92,13 @@ export default function Students() {
           authToken: accessToken,
         });
         getStudents();
+        alertUserHandler("Student Created Successfully");
         console.log("Student data", formData)
       } catch (error) {
         console.log(error)
       }      
     };
+
 
 
   return (
