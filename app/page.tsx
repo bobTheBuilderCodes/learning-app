@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import InputField from "@/shared/InputField";
 import CustomButton from "@/shared/CustomButton";
 
+
 export default function Home() {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -127,6 +128,7 @@ export default function Home() {
           {isLoading ? <Spinner /> : "Log in"}
         </CustomButton>
       </Form>
+     
     </main>
   );
 }

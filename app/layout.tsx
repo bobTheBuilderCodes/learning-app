@@ -4,6 +4,7 @@ import {  ConfigProvider } from "antd";
 import Providers from "@/components/Providers";
 
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -28,7 +29,9 @@ export default function RootLayout({
         }}
       >
         <html lang="en">
-          <body className={inter.className}>{children}</body>
+          <body className={inter.className}>{children}
+        
+          </body>
         </html>
       </ConfigProvider>
     </Providers>

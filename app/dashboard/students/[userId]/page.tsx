@@ -24,7 +24,11 @@ export default async function SingleUser({ params }: IProps) {
   const user = await getSingleData({
     url: api.singleStudent,
     dataId: params.userId,
-  });
+  }
+  
+  );
+
+
   const { firstName, middleName, lastName, email } = user.findStudent;
 
   // motivational quotes
@@ -56,7 +60,7 @@ export default async function SingleUser({ params }: IProps) {
           <Paragraph>{`${quote} - ${author}`}</Paragraph>
         </div>
       </div>
-      <CustomTab tabLength={4} labels={studentTabs}>
+      <CustomTab tabLength={studentTabs.length} labels={studentTabs}>
         {studentTabsContent}
       </CustomTab>
     </div>
