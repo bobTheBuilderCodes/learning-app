@@ -1,7 +1,6 @@
 "use client";
 
-import CustomButton from "@/shared/CustomButton";
-import InputField from "@/shared/InputField";
+
 import Heading from "@/constants/Heading";
 import { Alert, Button, Form } from "antd";
 import Link from "next/link";
@@ -12,6 +11,8 @@ import Spinner from "@/components/Spinner";
 import "react-toastify/dist/ReactToastify.css";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
 import { ToastContainer } from "react-toastify";
+import InputField from "@/shared/InputField";
+import CustomButton from "@/shared/CustomButton";
 
 export default function Home() {
   const [form] = Form.useForm();
@@ -77,13 +78,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 background_image">
       {error && (
-       
-        <Alert
-          message="Invalid credentials. Please try again!"
-          className="mb-4"
-          type="error"
-          showIcon
-        />
+        <div>
+
+        {alertUserHandler("Incorrect email or password")}
+        <ToastContainer />
+        </div>
+
       )}
 
       <Form

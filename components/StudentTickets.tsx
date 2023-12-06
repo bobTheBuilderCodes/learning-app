@@ -21,9 +21,6 @@ import { useParams } from "next/navigation";
 //Hooks
 import { useSession } from "next-auth/react";
 
-//Third party  library
-import { alertUserHandler } from "@/helpers/alertUserHandler";
-
 
 const StudentTickets = () => {
   const [tickets, setTickets] = useState([]);
@@ -97,7 +94,6 @@ const StudentTickets = () => {
         payload: formData,
         authToken: accessToken,
       });
-      // alertUserHandler("Your ticket has been sent to the admin for approval");
       getTickets();
     } catch (error) {
       console.log(error)
@@ -117,9 +113,7 @@ const StudentTickets = () => {
         authToken: accessToken,
       });
       getTickets();
-      // alertUserHandler("Ticket has been deleted successfully");
     } catch (error) {
-      // alertUserHandler("Something went wrong");
       console.log(error);
     }
   };
@@ -133,13 +127,10 @@ const StudentTickets = () => {
         payload: formData,
         authToken: accessToken,
       });
-      getTickets();
-      
+      getTickets();     
     } catch (error) {
       console.log(error)
     }
-    
-    // alertUserHandler("Your ticket has been edited successfully");
   };
 
   return (
