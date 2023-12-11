@@ -12,22 +12,26 @@ import Spinner from "./Spinner";
 //Antd components
 import { Col, Form, Input, Row, Select } from "antd";
 
-
 //Utils and Libs
 import { api } from "@/libs/endpoints";
-import { postData, getData } from "@/libs/getData";
+import { postData, getData, searchItems } from "@/libs/getData";
 import { useParams } from "next/navigation";
 
 //Hooks
 import { useSession } from "next-auth/react";
 
-
 const StudentTickets = () => {
   const [tickets, setTickets] = useState([]);
+  const [pendingTickets , setPendingTickets] = useState([])
+  const [rejectedTickets, setRejectedTickets] = useState([])
+  const [approvedTickets, setApprovedTickets] = useState([])
+
   const authData = useSession();
   const { userId } = useParams();
   const accessToken = authData?.data?.user?.accessToken!;
-  
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData , setFilteredData] = useState("")
 
   // Handle Forms
   const [formData, setFormData] = useState({
@@ -45,6 +49,7 @@ const StudentTickets = () => {
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
+    setFilteredData(value)
   };
 
   const columns = [
@@ -70,7 +75,6 @@ const StudentTickets = () => {
     },
   ];
 
-
   //Get all tickets
   const getTickets = async () => {
     const userId = authData.data?.user.rollId;
@@ -82,9 +86,76 @@ const StudentTickets = () => {
   };
 
 
+  //Get all pending tickets
+  const getPendingTickets = async () => {
+   
+    const {PendingTickets} = await getData(
+      `${api.getPendingTickets}`,
+      accessToken
+    );
+    setPendingTickets(PendingTickets);
+  };
+
+  useEffect(()=>{
+    getPendingTickets()
+  }, [filteredData])
+
+
+  //Get all approved tickets
+  const getApprovedTickets = async () => {
+    const userId = authData.data?.user.rollId;
+    const {ApprovedTickets} = await getData(
+      `${api.getApprovedTickets}`,
+      accessToken
+    );
+
+    // console.log("Approved tickets", approvedTickets)
+    setApprovedTickets(ApprovedTickets);
+  };
+
+  useEffect(()=>{
+    getApprovedTickets()
+  }, [filteredData])
+
+  //Get all rejected tickets
+  const getRejectedTickets = async () => {
+    const userId = authData.data?.user.rollId;
+    const {RejectedTickets} = await getData(
+      `${api.getRejectedTickets}`,
+      accessToken
+    );
+    // console.log("Rejected tickets", rejectedTickets)
+    setRejectedTickets(RejectedTickets);
+  };
+
+  useEffect(()=>{
+    getRejectedTickets()
+  }, [filteredData])
+
+ 
+
+
+  const searchedTickets = async() => {
+    try {
+      const searched = await searchItems({ticketname: searchTerm , authToken: accessToken})
+    setTickets(searched?.searchedTickets)
+    console.log("Searched", searched)
+    // console.log("Found", searched?.searchedTickets)
+    } catch (error) {
+      console.log("error searching" , error)
+    }
+    
+  }
+
   useEffect(() => {
     getTickets();
   }, []);
+
+
+  useEffect(()=>{
+    searchedTickets()
+  }, [searchItems])
+
 
   //Add new ticket
   const addTicketHandler = async () => {
@@ -96,9 +167,8 @@ const StudentTickets = () => {
       });
       getTickets();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-     
   };
 
   // Delete ticket
@@ -127,24 +197,36 @@ const StudentTickets = () => {
         payload: formData,
         authToken: accessToken,
       });
-      getTickets();     
+      getTickets();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
+
+  
+  const data =
+  filteredData === "pending"
+    ? pendingTickets
+    : filteredData === "approved"
+    ? approvedTickets
+    : filteredData === "rejected"
+    ? rejectedTickets
+    : tickets;
+
 
   return (
     <div>
       {" "}
       <Container className="justify-between">
         <Select
-          defaultValue="Pending"
+          defaultValue="All"
           size="large"
           style={{ width: 200 }}
           onChange={handleChange}
           options={[
+            { value: "all", label: "All" },
             { value: "pending", label: "Pending" },
-            { value: "confirmed", label: "Confirmed" },
+            { value: "approved", label: "Approved" },
             { value: "rejected", label: "Rejected" },
           ]}
         />
@@ -152,6 +234,11 @@ const StudentTickets = () => {
           <InputField
             placeholder="Search tickets"
             className={"whiteLabelInput w-[230px] mr-6"}
+            value={searchTerm}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(event.target.value)
+            }
+            // onKeyUp={searchTicketByName}
           />
 
           <CustomDrawer
@@ -206,7 +293,7 @@ const StudentTickets = () => {
           totalItems={10}
           onPageChange={() => {}}
           columns={columns}
-          data={tickets}
+          data={data}
           onDeleteTicket={deleteTicketHandler}
           onEditTicket={editTicketHandler}
         >

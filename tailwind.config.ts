@@ -16,6 +16,16 @@ const config: Config = {
       //     'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       // },
        colors: {
+
+        design: {
+          system: {
+            primary: {
+              colors:{
+                100 : "purple"
+              }
+            }
+          }
+        },
         // light mode
         tremor: {
           brand: {

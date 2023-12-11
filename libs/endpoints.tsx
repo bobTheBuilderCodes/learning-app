@@ -11,6 +11,10 @@ export const api = {
   allTickets: `${baseUrl}/ticket/allTickets`,
   studentTickets: `${baseUrl}/ticket/tickets`, 
   getTickets: `${baseUrl}/ticket/tickets`,
+  getPendingTickets: `${baseUrl}/ticket/pending/pendingTickets`,
+  getApprovedTickets: `${baseUrl}/ticket/approved/approvedTickets`,
+  getRejectedTickets: `${baseUrl}/ticket/rejected/rejectedTickets`,
+  searchTicketByName: `${baseUrl}/ticket`,
   editTicket: `${baseUrl}/ticket`,
   postTicket: `${baseUrl}/ticket` , //Append the student ID
   deleteTicket: `${baseUrl}/ticket` ,
