@@ -85,7 +85,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       ? "bg-yellow-50 inline-block mt-2 rounded-full text-yellow-600"
                       : row[column.dataIndex] === "Approved"
                       ? "bg-green-50 inline-block mt-2 rounded-full text-green-600"
-                      : "text-gray-900"
+                      : row[column.dataIndex] === "Rejected"
+                      ? "bg-red-50 inline-block mt-2 rounded-full text-red-600"
+                      : "bg-red-50 text-gray-900"
                     : ""
                 }`}
                 key={column.key}

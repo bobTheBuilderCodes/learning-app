@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import CustomVerticalTabs from "@/shared/CustomVerticalTabs";
-import { studentProfileInfo, studentProfileVerticalTabs } from "@/shared/tabs";
 
 //Ant D Components
 import {
@@ -26,7 +24,8 @@ import { useSession } from "next-auth/react";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
 
 const StudentProfile = () => {
-  const [currentStudentData, setCurrentStudentData] = useState('');
+  const [currentStudentData, setCurrentStudentData] = useState(null);
+  const [currentUserId , setCurrentUserId] = useState("")
   const router = useRouter();
   const params = useParams();
   const authData = useSession();
@@ -101,14 +100,16 @@ const StudentProfile = () => {
       url: api.singleStudent,
       dataId: params.userId,
     });
-    setCurrentStudentData(response.findStudent?.rollId);
+    setCurrentStudentData(response.findStudent);
+    setCurrentUserId(response?.findStudent?.rollId)
   };
 
+  const {} = setCurrentStudentData
   
   useEffect(() => {
     getCurrentUser();
   }, []);
-  console.log("Current user data", currentStudentData);
+  console.log("Current user details", currentStudentData);
 
   return (
     <div className="flex">
@@ -332,7 +333,7 @@ const StudentProfile = () => {
             danger
             type="primary"
             className="my-4"
-            onClick={() => deleteStudenttHandler(currentStudentData)}
+            onClick={() => deleteStudenttHandler(currentUserId)}
           >
             Delete Account{" "}
           </Button>
