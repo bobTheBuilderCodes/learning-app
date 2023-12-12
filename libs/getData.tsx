@@ -56,9 +56,8 @@ interface ISearchItems {
 
 export async function searchItems({ticketname , ticketId, authToken} : ISearchItems) {
   try {
-    const searchUrl = `https://schoolsphere-backend.onrender.com/v1/ticket/name/ticketbyname?query=${encodeURIComponent(ticketname)}`;
-    
-    // Define headers, including the authentication token
+    const searchUrl = `https://schoolsphere-backend.onrender.com/v1/ticket/name/ticketbyname?ticketname=${encodeURIComponent(ticketname)}`;
+  
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${authToken}`, // Replace with your actual authentication header
@@ -69,8 +68,8 @@ export async function searchItems({ticketname , ticketId, authToken} : ISearchIt
       throw new Error(`Error: ${response.status} - ${response.statusText}`);
     }
     const data = await response.json();
-    console.log("Results here", data.results)
-    return data.results;
+    console.log("Results here", data)
+    return data;
   } catch (error) {
     console.error('An error occurred:', error);
     return [];

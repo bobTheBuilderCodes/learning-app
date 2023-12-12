@@ -22,16 +22,16 @@ import { useSession } from "next-auth/react";
 
 const StudentTickets = () => {
   const [tickets, setTickets] = useState([]);
-  const [pendingTickets , setPendingTickets] = useState([])
-  const [rejectedTickets, setRejectedTickets] = useState([])
-  const [approvedTickets, setApprovedTickets] = useState([])
+  const [pendingTickets, setPendingTickets] = useState([]);
+  const [rejectedTickets, setRejectedTickets] = useState([]);
+  const [approvedTickets, setApprovedTickets] = useState([]);
 
   const authData = useSession();
   const { userId } = useParams();
   const accessToken = authData?.data?.user?.accessToken!;
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData , setFilteredData] = useState("")
+  const [filteredData, setFilteredData] = useState("");
 
   // Handle Forms
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ const StudentTickets = () => {
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
-    setFilteredData(value)
+    setFilteredData(value);
   };
 
   const columns = [
@@ -85,26 +85,22 @@ const StudentTickets = () => {
     setTickets(studentTickets?.studentTickets);
   };
 
-
   //Get all pending tickets
   const getPendingTickets = async () => {
-   
-    const {PendingTickets} = await getData(
+    const { PendingTickets } = await getData(
       `${api.getPendingTickets}`,
       accessToken
     );
     setPendingTickets(PendingTickets);
   };
 
-  useEffect(()=>{
-    getPendingTickets()
-  }, [filteredData])
-
+  useEffect(() => {
+    getPendingTickets();
+  }, [filteredData]);
 
   //Get all approved tickets
   const getApprovedTickets = async () => {
-    const userId = authData.data?.user.rollId;
-    const {ApprovedTickets} = await getData(
+    const { ApprovedTickets } = await getData(
       `${api.getApprovedTickets}`,
       accessToken
     );
@@ -113,14 +109,13 @@ const StudentTickets = () => {
     setApprovedTickets(ApprovedTickets);
   };
 
-  useEffect(()=>{
-    getApprovedTickets()
-  }, [filteredData])
+  useEffect(() => {
+    getApprovedTickets();
+  }, [filteredData]);
 
   //Get all rejected tickets
   const getRejectedTickets = async () => {
-    const userId = authData.data?.user.rollId;
-    const {RejectedTickets} = await getData(
+    const { RejectedTickets } = await getData(
       `${api.getRejectedTickets}`,
       accessToken
     );
@@ -128,34 +123,56 @@ const StudentTickets = () => {
     setRejectedTickets(RejectedTickets);
   };
 
-  useEffect(()=>{
-    getRejectedTickets()
-  }, [filteredData])
+  useEffect(() => {
+    getRejectedTickets();
+  }, [filteredData]);
 
- 
+  const data =
+    filteredData === "pending"
+      ? pendingTickets
+      : filteredData === "approved"
+      ? approvedTickets
+      : filteredData === "rejected"
+      ? rejectedTickets
+      : tickets;
 
+  // ...
 
-  const searchedTickets = async() => {
-    try {
-      const searched = await searchItems({ticketname: searchTerm , authToken: accessToken})
-    setTickets(searched?.searchedTickets)
-    console.log("Searched", searched)
-    // console.log("Found", searched?.searchedTickets)
-    } catch (error) {
-      console.log("error searching" , error)
+  const searchedTickets = async () => {
+    const response = await searchItems({
+      ticketname: searchTerm,
+      authToken: accessToken,
+    });
+
+    console.log("Search Response:", response);
+
+    if (response && response.searchedTicket) {
+      console.log("Setting Tickets:", response);
+      setTickets(response.searchedTicket);
     }
-    
-  }
+  };
+
+  let searchTimer: any;
+
+const handleSearch = () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    // Make the API request here
+    searchedTickets()
+  }, 500);
+};
+
+
+  // ...
 
   useEffect(() => {
     getTickets();
   }, []);
 
-
-  useEffect(()=>{
-    searchedTickets()
-  }, [searchItems])
-
+  useEffect(() => {
+    // searchedTickets();
+    handleSearch()
+  }, [searchTerm]);
 
   //Add new ticket
   const addTicketHandler = async () => {
@@ -203,17 +220,6 @@ const StudentTickets = () => {
     }
   };
 
-  
-  const data =
-  filteredData === "pending"
-    ? pendingTickets
-    : filteredData === "approved"
-    ? approvedTickets
-    : filteredData === "rejected"
-    ? rejectedTickets
-    : tickets;
-
-
   return (
     <div>
       {" "}
@@ -238,7 +244,7 @@ const StudentTickets = () => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setSearchTerm(event.target.value)
             }
-            // onKeyUp={searchTicketByName}
+            // onKeyUp={handleSearch}
           />
 
           <CustomDrawer

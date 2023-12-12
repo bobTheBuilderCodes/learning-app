@@ -37,9 +37,9 @@ const Avatars = () => {
           onClick={(e) => e.preventDefault()}
         >
           <Avatar
-            size={32}
+            size={32} 
             src={
-              session.data?.user?.image ||
+              // session.data?.user?.image ||
               session.data?.user?.loggedInUser?.slice(0, 2)
             }
             alt="User Avatar"
