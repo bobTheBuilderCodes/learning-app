@@ -136,7 +136,7 @@ const DashboardLayout = ({ children }: IProps) => {
                 width: 64,
                 height: 64,
                 flex: 1,
-                // marginRight: "auto",
+               
               }}
             />
           </div>
