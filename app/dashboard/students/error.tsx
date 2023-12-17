@@ -12,7 +12,7 @@ const Error = () => {
     
     <div className='w-full h-screen flex flex-col justify-center items-center'>
       <Heading>
-        Sorry , could not load students.
+        Sorry , something went wrong.
         </Heading>
         <Button onClick={()=>router.back()} type='primary'>Reload Page</Button>
     </div>

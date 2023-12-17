@@ -14,7 +14,7 @@ import Link from "next/link";
 
 //Ant D Components
 import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import type { DatePickerProps } from 'antd';
+
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -40,6 +40,7 @@ export default function Students() {
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     GPS: "",
     location: "",
     gender: "male",
@@ -56,7 +57,7 @@ export default function Students() {
     middleName,
     lastName,
     email,
-    password,
+    password, confirmPassword,
     GPS,
     guardianName,
     guardianNumber, admissionDate,
@@ -210,21 +211,21 @@ export default function Students() {
                 </Row>
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item name="GPS" label="GPS">
+                    <Form.Item name="confirmPassword" label="Confirm Password">
                       <Input
-                        placeholder="Enter GPS"
-                        name="GPS"
-                        value={GPS}
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        value={confirmPassword}
                         onChange={formDataHandler}
                       />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item name="location" label="Location">
+                    <Form.Item name="guardianName" label="Guardian Name">
                       <Input
-                        placeholder="Enter location"
-                        name="location"
-                        value={location}
+                        placeholder="Enter guardian name"
+                        name="guardianName"
+                        value={guardianName}
                         onChange={formDataHandler}
                       />
                     </Form.Item>

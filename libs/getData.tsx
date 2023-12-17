@@ -54,7 +54,7 @@ interface ISearchItems {
   authToken: string
 }
 
-export async function searchItems({ticketname , ticketId, authToken} : ISearchItems) {
+export async function searchItems({ticketname , authToken} : ISearchItems) {
   try {
     const searchUrl = `https://schoolsphere-backend.onrender.com/v1/ticket/name/ticketbyname?ticketname=${encodeURIComponent(ticketname)}`;
   

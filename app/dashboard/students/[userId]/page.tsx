@@ -66,3 +66,4 @@ export default async function SingleUser({ params }: IProps) {
     </div>
   );
 }
+ 
