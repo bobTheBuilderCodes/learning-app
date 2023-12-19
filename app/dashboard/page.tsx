@@ -1,20 +1,39 @@
-
 "use client";
 
 import React from "react";
 import Heading from "@/constants/Heading";
-
+import Announcement from "@/components/Announcement";
+import SubHeading from "@/constants/SubHeading";
+import BookCard from "@/components/BookCard";
+import CompetitionCard from "@/components/CompetitionCard";
+import CustomCalendar from "@/components/Calendar";
+import ActivityCard from "@/components/SemesterActivity";
 
 export default function Home() {
-
   return (
     <div className="flex h-[100%] w-[100%] bg-white">
-      <div className="w-1/4"></div>
-      <div className="w-2/4 h-[100%] border-l-2 border-gray-100 bg-gray-100">
-      
+      <div className="w-1/4">
+        <SubHeading className="px-1 pt-4 pb-0  mx-4">
+          Academic Year Activities
+        </SubHeading>
+        <CustomCalendar />
+
+        <ActivityCard />
+        <ActivityCard />
+        <ActivityCard />
       </div>
-      <div className="w-1/4 border-l-2 border-gray-100 bg-white">
-        <Heading className="px-4 pt-4 pb-0">Notifications</Heading>
+      <div className="w-2/4 h-[100%] px-12">
+        <SubHeading className="px-1 pt-4 pb-0 ">Notifications</SubHeading>
+        <Announcement />
+      </div>
+      <div className="w-1/4 bg-white">
+        <SubHeading className="px-1 pt-4 pb-0 mx-4">Recent Books</SubHeading>
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
       </div>
     </div>
   );
