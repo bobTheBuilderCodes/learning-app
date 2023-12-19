@@ -120,7 +120,7 @@ const StudentHealth = () => {
         <Row gutter={16} className="mt-8">
           <Col span={12}>
           <Button type="default">Cancel</Button>
-          <Button type="primary">Save</Button>
+          <Button type="primary" className='mx-4'>Save</Button>
           </Col>
         
         </Row>
@@ -167,10 +167,10 @@ const StudentHealth = () => {
             <Switch defaultChecked onChange={onChangeToggle} />
           </div>
           <Button type="default">Cancel</Button>
-          <Button type="primary">Save</Button>
+          <Button type="primary" className='mx-4'>Save</Button>
         </div>
       
-        {/* Emergency Contact */}
+     
         
       </div>
     </div>

@@ -107,7 +107,7 @@ const StudentGrade: React.FC = () => {
         {/* <Switch defaultChecked onChange={onChangeToggle} /> */}
       </div>
       <Button type="default">Cancel</Button>
-      <Button type="primary">Save</Button>
+      <Button type="primary"  className='mx-4'>Save</Button>
     </div>
   
     

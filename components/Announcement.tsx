@@ -1,26 +1,106 @@
-import React from "react";
-import Avatars from "./Avatars";
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
-import { Divider } from "antd";
+import React, { useEffect, useState } from "react";
+import { Avatar, Button, List, Skeleton } from "antd";
 
-const Announcement = () => {
-  return (
-    <div className="flex m-4 ">
-      <div>
-        <SubHeading>
-          Transforming Educational System
-          <span className="text-gray-400 font-normal"> | 3 weeks ago </span>
-        </SubHeading>
-        <Paragraph className={"pl-2 w-[100%]"}>
-          📢 Attention Students! We are excited to announce our annual Science
-          Fair, happening on [Date]. Get ready to showcase your innovative
-          projects and scientific discoveries. Stay tuned for more details on
-          how you can participate and make this event a success!.
-        </Paragraph>
-        <Divider />
+interface DataType {
+  gender?: string;
+  name: {
+    title?: string;
+    first?: string;
+    last?: string;
+  };
+  email?: string;
+  picture: {
+    large?: string;
+    medium?: string;
+    thumbnail?: string;
+  };
+  nat?: string;
+  loading: boolean;
+}
+
+const count = 3;
+const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
+
+const Announcement: React.FC = () => {
+  const [initLoading, setInitLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<DataType[]>([]);
+  const [list, setList] = useState<DataType[]>([]);
+
+  useEffect(() => {
+    fetch(fakeDataUrl)
+      .then((res) => res.json())
+      .then((res) => {
+        setInitLoading(false);
+        setData(res.results);
+        setList(res.results);
+      });
+  }, []);
+
+  const onLoadMore = () => {
+    setLoading(true);
+    setList(
+      data.concat(
+        [...new Array(count)].map(() => ({
+          loading: true,
+          name: {},
+          picture: {},
+        }))
+      )
+    );
+    fetch(fakeDataUrl)
+      .then((res) => res.json())
+      .then((res) => {
+        const newData = data.concat(res.results);
+        setData(newData);
+        setList(newData);
+        setLoading(false);
+        // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
+        // In real scene, you can using public method of react-virtualized:
+        // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
+        window.dispatchEvent(new Event("resize"));
+      });
+  };
+
+  const loadMore =
+    !initLoading && !loading ? (
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: 12,
+          height: 32,
+          lineHeight: "32px",
+        }}
+      >
+        <Button onClick={onLoadMore}>loading more</Button>
       </div>
-    </div>
+    ) : null;
+
+  return (
+    <List
+      className="demo-loadmore-list"
+      loading={initLoading}
+      itemLayout="horizontal"
+      loadMore={loadMore}
+      dataSource={list}
+      renderItem={(item) => (
+        <List.Item
+          actions={[
+            <a key="list-loadmore-edit" className="text-blue-500">View Details</a>,
+            <a key="list-loadmore-more" className="text-red-500">Remove</a>,
+          ]}
+        >
+          <Skeleton avatar title={false} loading={item.loading} active>
+            <List.Item.Meta
+              avatar={<Avatar src={item.picture.large} />}
+              title={<a href="https://ant.design">{item.name?.last}</a>}
+              description="Philomena Potinge has requested for a ticket and it's pending your approval. Review at your convenience"
+            />
+          
+          </Skeleton>
+        </List.Item>
+      )}
+    />
   );
 };
 

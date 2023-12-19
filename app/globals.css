@@ -97,3 +97,7 @@ body {
   :where(.css-dev-only-do-not-override-1hihieh).ant-btn-default{
     border: none;
   }
+
+  body > div > div > main > div > div:nth-child(1) > div{
+    border: none !important;
+  }
