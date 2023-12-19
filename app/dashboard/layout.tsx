@@ -63,7 +63,7 @@ const DashboardLayout = ({ children }: IProps) => {
     {
       key: "7",
       icon: <BookOutlined />,
-      label: <Link href="/dashboard/competitions">Competitions</Link>,
+      label: <Link href="/dashboard/competitions">Competitions</Link>, 
     },
     
   ]

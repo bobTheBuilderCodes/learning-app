@@ -25,13 +25,15 @@ const StudentTickets = () => {
   const [pendingTickets, setPendingTickets] = useState([]);
   const [rejectedTickets, setRejectedTickets] = useState([]);
   const [approvedTickets, setApprovedTickets] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
 
   const authData = useSession();
   const { userId } = useParams();
   const accessToken = authData?.data?.user?.accessToken!;
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState("");
+  const [filteredData, setFilteredData] = useState("all");
 
   // Handle Forms
   const [formData, setFormData] = useState({
@@ -75,43 +77,64 @@ const StudentTickets = () => {
     },
   ];
 
-  //Get all tickets
+  const data =
+    filteredData === "all"
+      ? tickets
+      : filteredData === "approved"
+      ? approvedTickets
+      : filteredData === "rejected"
+      ? rejectedTickets
+      : filteredData === "pending"
+      ? pendingTickets
+      : [];
+
   const getTickets = async () => {
-    const userId = authData.data?.user.rollId;
+    // const userId = authData.data?.user.rollId;
     const studentTickets = await getData(
-      `${api.getTickets}/${userId}`,
+      // `${api.getTickets}/${userId}?page=${currentPage}&size=${pageSize}`,
+      `${api.getTickets}/${userId}?page=${currentPage}&size=${pageSize}`,
       accessToken
     );
-    setTickets(studentTickets?.studentTickets);
+    console.log("API Response:", studentTickets);
+    console.log("API Response I need:", studentTickets?.data);
+    setTickets(studentTickets?.data?.studentTickets);
+    console.log("Response tickets", tickets);
   };
 
-  //Get all pending tickets
+  useEffect(() => {
+    //Get all tickets
+
+    getTickets();
+  }, [currentPage, pageSize]);
+
+  // Get all pending tickets
   const getPendingTickets = async () => {
     const { PendingTickets } = await getData(
       `${api.getPendingTickets}`,
       accessToken
     );
     setPendingTickets(PendingTickets);
+    console.log("Pending tickets", pendingTickets);
   };
 
   useEffect(() => {
     getPendingTickets();
-  }, [filteredData]);
+  }, []);
 
-  //Get all approved tickets
+  // Get all approved tickets
   const getApprovedTickets = async () => {
     const { ApprovedTickets } = await getData(
       `${api.getApprovedTickets}`,
       accessToken
     );
 
-    // console.log("Approved tickets", approvedTickets)
+    console.log("Approved tickets", approvedTickets);
     setApprovedTickets(ApprovedTickets);
   };
 
   useEffect(() => {
     getApprovedTickets();
-  }, [filteredData]);
+  }, []);
 
   //Get all rejected tickets
   const getRejectedTickets = async () => {
@@ -119,24 +142,13 @@ const StudentTickets = () => {
       `${api.getRejectedTickets}`,
       accessToken
     );
-    // console.log("Rejected tickets", rejectedTickets)
+    console.log("Rejected tickets", rejectedTickets);
     setRejectedTickets(RejectedTickets);
   };
 
   useEffect(() => {
     getRejectedTickets();
-  }, [filteredData]);
-
-  const data =
-    filteredData === "pending"
-      ? pendingTickets
-      : filteredData === "approved"
-      ? approvedTickets
-      : filteredData === "rejected"
-      ? rejectedTickets
-      : tickets;
-
-  // ...
+  }, []);
 
   const searchedTickets = async () => {
     const response = await searchItems({
@@ -144,36 +156,38 @@ const StudentTickets = () => {
       authToken: accessToken,
     });
 
-    console.log("Search Response:", response);
-
     if (response && response.searchedTicket) {
-      console.log("Setting Tickets:", response);
       setTickets(response.searchedTicket);
     }
   };
 
   let searchTimer: any;
 
-const handleSearch = () => {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    // Make the API request here
-    searchedTickets()
-  }, 500);
-};
-
-
   // ...
 
-  useEffect(() => {
-    getTickets();
-  }, []);
+  // useEffect(() => {
+  //   getTickets();
+  // }, []);
+
 
   useEffect(() => {
-    // searchedTickets();
-    handleSearch()
+    const handleSearch = () => {
+      clearTimeout(searchTimer);
+      
+      // Check if the searchTerm is empty before making the API call
+      if (searchTerm.trim() !== '') {
+        searchTimer = setTimeout(() => {
+          searchedTickets();
+        }, 500);
+      }
+    };
+  
+    handleSearch();
+  
+    // Cleanup the timeout on component unmount or when searchTerm changes
+    return () => clearTimeout(searchTimer);
   }, [searchTerm]);
-
+  
   //Add new ticket
   const addTicketHandler = async () => {
     try {
@@ -182,7 +196,7 @@ const handleSearch = () => {
         payload: formData,
         authToken: accessToken,
       });
-      getTickets();
+      // getTickets();
     } catch (error) {
       console.log(error);
     }
@@ -199,7 +213,7 @@ const handleSearch = () => {
         },
         authToken: accessToken,
       });
-      getTickets();
+      // getTickets();
     } catch (error) {
       console.log(error);
     }
@@ -214,7 +228,7 @@ const handleSearch = () => {
         payload: formData,
         authToken: accessToken,
       });
-      getTickets();
+      // getTickets();
     } catch (error) {
       console.log(error);
     }
@@ -295,7 +309,7 @@ const handleSearch = () => {
       {tickets ? (
         <CustomTable
           currentPage={1}
-          itemsPerPage={10}
+          itemsPerPage={5}
           totalItems={10}
           onPageChange={() => {}}
           columns={columns}

@@ -180,28 +180,7 @@ const StudentProfile = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item name="GPS" label="GPS">
-              <Input
-                placeholder="Enter GPS"
-                name="GPS"
-                value={GPS}
-                onChange={formDataHandler}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="location" label="Location">
-              <Input
-                placeholder="Enter location"
-                name="location"
-                value={location}
-                onChange={formDataHandler}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+        
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item name="GPS" label="GPS">

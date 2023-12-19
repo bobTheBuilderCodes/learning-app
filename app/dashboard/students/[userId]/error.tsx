@@ -14,7 +14,7 @@ const Error = () => {
       <Heading>
         Sorry , something went wrong.
         </Heading>
-        <Button onClick={()=>router.refresh()} type='primary'>Reload Page</Button>
+        <Button onClick={()=>router.back()} type='primary'>Reload Page</Button>
     </div>
   )
 }
