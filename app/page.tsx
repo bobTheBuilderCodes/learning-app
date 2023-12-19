@@ -81,7 +81,7 @@ export default function Home() {
       {error && (
         <div>
 
-        {alertUserHandler("Incorrect email or password")}
+        {alertUserHandler("An error occured while logging in a user")}
         <ToastContainer />
         </div>
 

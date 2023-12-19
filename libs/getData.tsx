@@ -60,7 +60,7 @@ export async function searchItems({ticketname , authToken} : ISearchItems) {
   
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}`, // Replace with your actual authentication header
+      'Authorization': `Bearer ${authToken}`, 
     };
     
     const response = await fetch(searchUrl, {headers} );
@@ -68,7 +68,6 @@ export async function searchItems({ticketname , authToken} : ISearchItems) {
       throw new Error(`Error: ${response.status} - ${response.statusText}`);
     }
     const data = await response.json();
-    console.log("Results here", data)
     return data;
   } catch (error) {
     console.error('An error occurred:', error);
@@ -89,6 +88,8 @@ export async function getSingleData(
 
   return res.json();
 }
+
+
 export async function getQuotes(url: string): Promise<allQuotes> {
   const res = await fetch(url);
 
