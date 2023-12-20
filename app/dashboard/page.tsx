@@ -9,6 +9,7 @@ import CompetitionCard from "@/components/CompetitionCard";
 import CustomCalendar from "@/components/Calendar";
 import ActivityCard from "@/components/SemesterActivity";
 
+
 export default function Home() {
   return (
     <div className="flex h-[100%] w-[100%] bg-white ">
