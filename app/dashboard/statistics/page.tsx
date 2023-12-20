@@ -13,7 +13,7 @@ import { Chart } from "chart.js/auto";
 import revenueData from "../../data/revenuedata.json";
 import sourceData from "../../data/sourcedata.json";
 
-const page = () => {
+const AdminDashboard = () => {
   useEffect(() => {
     Chart.register(CategoryScale, LinearScale, Title);
   }, []);
@@ -104,10 +104,10 @@ const page = () => {
                     },
                   },
                 }}
-                // style={{width: "120%"}}
+               
               />
             </DashboardCard>
-            //End
+          
             <DashboardCard width="97%" height="46%">
               <Bar
                 data={{
@@ -205,4 +205,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AdminDashboard;
