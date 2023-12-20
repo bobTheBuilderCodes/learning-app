@@ -17,7 +17,7 @@ const CustomCalendar: React.FC = () => {
   };
 
   return (
-    <div style={wrapperStyle} className='m-4 bg-red-400'>
+    <div style={wrapperStyle} className=' bg-red-400'>
       <Calendar fullscreen={false} onPanelChange={onPanelChange} className='' />
     </div>
   );

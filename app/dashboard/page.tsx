@@ -11,9 +11,9 @@ import ActivityCard from "@/components/SemesterActivity";
 
 export default function Home() {
   return (
-    <div className="flex h-[100%] w-[100%] bg-white">
+    <div className="flex h-[100%] w-[100%] bg-white ">
       <div className="w-1/4">
-        <SubHeading className="px-1 pt-4 pb-0  mx-4">
+        <SubHeading className=" pt-4 mx-4 text-gray-900">
           Academic Year Activities
         </SubHeading>
         <CustomCalendar />
@@ -22,12 +22,12 @@ export default function Home() {
         <ActivityCard />
         <ActivityCard />
       </div>
-      <div className="w-2/4 h-[100%] px-12">
-        <SubHeading className="px-1 pt-4 pb-0 ">Notifications</SubHeading>
+      <div className="w-2/4 h-[100%] px-6">
+        <SubHeading className="px-1 pt-4 pb-0 text-gray-900">Notifications</SubHeading>
         <Announcement />
       </div>
       <div className="w-1/4 bg-white">
-        <SubHeading className="px-1 pt-4 pb-0 mx-4">Recent Books</SubHeading>
+        <SubHeading className="px-1 pt-4 pb-0 mx-4 text-gray-900">Recent Books</SubHeading>
         <BookCard />
         <BookCard />
         <BookCard />
