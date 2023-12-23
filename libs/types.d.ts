@@ -136,9 +136,8 @@ type createStudent = {
 
 
 type allTickets = 	
-
 {
-  "allTickets": [
+  allTickets: [
     {
       "ticketId": number,
       "ticketName": string,
@@ -150,6 +149,5 @@ type allTickets =
       "createdAt": string,
       "updatedAt": string
     }
-  ],
-  "message": "All Tickets Fetched Successfully"
+  ]
 }

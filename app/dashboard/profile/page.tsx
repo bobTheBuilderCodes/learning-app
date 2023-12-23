@@ -1,4 +1,4 @@
-import Heading from "@/constants/Heading";
+import Heading from "@/components/constants/Heading";
 import React from "react";
 
 const Profile = () => {

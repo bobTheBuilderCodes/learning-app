@@ -7,8 +7,8 @@ const handler = NextAuth({
       name: "Credentials",
 
       credentials: {
-        username: { label: "email", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
+        username: {},
+        password: {},
       },
       async authorize(credentials, req) {
         const res = await fetch(api.loginStudent, {
@@ -25,7 +25,6 @@ const handler = NextAuth({
         const user = await res.json();
 
         if (user) {
-          console.log("Logged in user", user);
           return user;
         } else {
           return null;
@@ -49,7 +48,7 @@ const handler = NextAuth({
         session.user.rollId = token.rollId;
         session.user.loggedInUser = token.loggedInUser;
         session.user.userRole = token.userRole;
-        session.user.accessToken = token.accessToken
+        session.user.accessToken = token.accessToken;
         // session.user.class = token.cla
       }
 

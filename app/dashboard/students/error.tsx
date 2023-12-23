@@ -3,7 +3,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from 'antd'
-import Heading from '@/constants/Heading'
+import Heading from '@/components/constants/Heading'
 
 const Error = () => {
 

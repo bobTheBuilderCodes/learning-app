@@ -3,8 +3,8 @@
 //Components
 import CustomCard from "@/components/Card";
 import CustomDrawer from "@/components/Drawer";
-import InputField from "@/shared/InputField";
-import SubHeading from "@/constants/SubHeading";
+import InputField from "@/components/shared/InputField";
+import SubHeading from "@/components/constants/SubHeading";
 import Container from "@/components/Container";
 
 // Libs and Utils
@@ -23,6 +23,7 @@ import {useRouter} from 'next/navigation'
 import Loading from "./loading";
 import EmptyState from "@/components/EmptyState";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
+import { studentType } from "@/types/studentInterface";
 
 export default function Students() {
   const [users, setUsers] = useState<allStudents | null>(null);

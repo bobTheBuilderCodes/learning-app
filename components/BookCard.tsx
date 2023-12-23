@@ -1,4 +1,4 @@
-import Paragraph from "@/constants/Paragraph";
+import Paragraph from "@/components/constants/Paragraph";
 
 
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Avatar, Menu, Dropdown } from "antd";
 import { useSession, signOut } from "next-auth/react";
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
+import Paragraph from "@/components/constants/Paragraph";
+import SubHeading from "@/components/constants/SubHeading";
 import Link from "next/link";
 
 const Avatars = () => {

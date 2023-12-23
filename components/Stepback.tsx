@@ -2,10 +2,10 @@
 
 import React, { ReactNode } from "react";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import Heading from "@/constants/Heading";
+import Heading from "@/components/constants/Heading";
 
 import { useRouter } from "next/navigation";
-import SubHeading from "@/constants/SubHeading";
+import SubHeading from "@/components/constants/SubHeading";
 
 interface IProps {
   children?: ReactNode;

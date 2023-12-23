@@ -4,15 +4,15 @@ import React from "react";
 import { Avatar } from "antd";
 
 // Components
-import CustomTab from "@/shared/CustomTabs";
+import CustomTab from "@/components/shared/CustomTabs";
 import Stepback from "@/components/Stepback";
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
+import Paragraph from "@/components/constants/Paragraph";
+import SubHeading from "@/components/constants/SubHeading";
 
 // Libs and Utils
 import { api } from "@/libs/endpoints";
 import { getQuotes, getSingleData } from "@/libs/getData";
-import { studentTabs, studentTabsContent } from "@/shared/tabs";
+import { studentTabs, studentTabsContent } from "@/components/shared/tabs";
 
 interface IProps {
   params: {

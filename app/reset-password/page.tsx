@@ -1,8 +1,8 @@
 "use client";
 
-import CustomButton from "@/shared/CustomButton";
-import InputField from "@/shared/InputField";
-import Heading from "@/constants/Heading";
+import CustomButton from "@/components/shared/CustomButton";
+import InputField from "@/components/shared/InputField";
+import Heading from "@/components/constants/Heading";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Radio, Switch } from "antd";
 import Link from "next/link";

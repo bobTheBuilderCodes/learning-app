@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 
 //Components
-import CustomTable from "./CustomTable";
-import Container from "./Container";
-import CustomDrawer from "./Drawer";
-import InputField from "@/shared/InputField";
-import Spinner from "./Spinner";
+import CustomTable from "../CustomTable";
+import Container from "../Container";
+import CustomDrawer from "../Drawer";
+import InputField from "@/components/shared/InputField";
+import Spinner from "../Spinner";
 
 //Antd components
 import { Col, Form, Input, Row, Select } from "antd";

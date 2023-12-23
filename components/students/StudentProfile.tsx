@@ -14,9 +14,9 @@ import {
   Switch,
 } from "antd";
 import type { DatePickerProps } from "antd";
-import SubHeading from "@/constants/SubHeading";
-import Paragraph from "@/constants/Paragraph";
-import Heading from "@/constants/Heading";
+import SubHeading from "@/components/constants/SubHeading";
+import Paragraph from "@/components/constants/Paragraph";
+import Heading from "@/components/constants/Heading";
 import { getSingleData, postData } from "@/libs/getData";
 import { api } from "@/libs/endpoints";
 import { useParams, useRouter } from "next/navigation";

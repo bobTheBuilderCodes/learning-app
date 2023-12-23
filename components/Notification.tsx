@@ -1,6 +1,6 @@
 import React from "react";
 import Avatars from "./Avatars";
-import Paragraph from "@/constants/Paragraph";
+import Paragraph from "@/components/constants/Paragraph";
 import { Divider } from "antd";
 
 const Notification = () => {

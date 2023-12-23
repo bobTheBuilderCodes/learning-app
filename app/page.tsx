@@ -1,18 +1,18 @@
 "use client";
 
 
-import Heading from "@/constants/Heading";
+import Heading from "@/components/constants/Heading";
 import {  Button, Form } from "antd";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import "react-toastify/dist/ReactToastify.css";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
 import { ToastContainer } from "react-toastify";
-import InputField from "@/shared/InputField";
-import CustomButton from "@/shared/CustomButton";
+import InputField from "@/components/shared/InputField";
+import CustomButton from "@/components/shared/CustomButton";
 
 
 export default function Home() {
@@ -43,7 +43,7 @@ export default function Home() {
       // Throw error here
 
       if (status === "unauthenticated" || !data?.user.accessToken) {
-        router.push("/");
+        redirect("/");
         setError(true);
         setTimeout(() => {
           setError(false);
@@ -61,15 +61,18 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    if (status === "authenticated" && data.user.accessToken) {
-      router.push("/dashboard");
-      setError(false);
+  useLayoutEffect(() => {
+    if (status === "unauthenticated" || !data?.user.accessToken) {
+      redirect("/");
     }
 
-    if (status === "unauthenticated" || !data?.user.accessToken) {
-      router.push("/");
+    
+    if (status === "authenticated" && data.user.accessToken) {
+      setError(false);
+      redirect("/dashboard");
     }
+
+   
   }, [session.data?.user, status]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

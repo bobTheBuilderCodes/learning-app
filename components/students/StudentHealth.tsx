@@ -1,8 +1,8 @@
 "use client";
 
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
-import CustomButton from "@/shared/CustomButton";
+import Paragraph from "@/components/constants/Paragraph";
+import SubHeading from "@/components/constants/SubHeading";
+import CustomButton from "@/components/shared/CustomButton";
 import {
   Button,
   Col,

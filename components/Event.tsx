@@ -1,7 +1,7 @@
 import React from "react";
 import Avatars from "./Avatars";
-import Paragraph from "@/constants/Paragraph";
-import SubHeading from "@/constants/SubHeading";
+import Paragraph from "@/components/constants/Paragraph";
+import SubHeading from "@/components/constants/SubHeading";
 import { Divider } from "antd";
 
 const Event = () => {

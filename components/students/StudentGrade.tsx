@@ -3,8 +3,8 @@
 import React from 'react';
 import type { CollapseProps } from 'antd';
 import { Button, Collapse, Switch } from 'antd';
-import SubHeading from '@/constants/SubHeading';
-import Paragraph from '@/constants/Paragraph';
+import SubHeading from '@/components/constants/SubHeading';
+import Paragraph from '@/components/constants/Paragraph';
 
 const text = `
   A dog is a type of domesticated animal.

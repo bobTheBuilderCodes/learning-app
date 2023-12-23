@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Heading from "@/constants/Heading";
+import Heading from "@/components/constants/Heading";
 import Announcement from "@/components/Announcement";
-import SubHeading from "@/constants/SubHeading";
+import SubHeading from "@/components/constants/SubHeading";
 import BookCard from "@/components/BookCard";
 import CompetitionCard from "@/components/CompetitionCard";
 import CustomCalendar from "@/components/Calendar";

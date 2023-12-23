@@ -18,7 +18,7 @@ import Link from "next/link";
 
 import Avatars from "@/components/Avatars";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 
 const { Header, Sider, Content } = Layout;
@@ -98,7 +98,7 @@ const DashboardLayout = ({ children }: IProps) => {
   useLayoutEffect(()=>{
 
     if(!session?.user.accessToken){
-      router.push("/")
+     redirect("/")
     }
   })
 

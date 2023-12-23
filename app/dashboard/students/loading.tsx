@@ -1,5 +1,5 @@
-import Heading from '@/constants/Heading'
-import SubHeading from '@/constants/SubHeading'
+import Heading from '@/components/constants/Heading'
+import SubHeading from '@/components/constants/SubHeading'
 import React from 'react'
 
 const Loading = () => {

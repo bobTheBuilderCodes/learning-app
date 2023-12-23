@@ -3,8 +3,8 @@
 //Components
 import CustomCard from "@/components/Card";
 import CustomDrawer from "@/components/Drawer";
-import InputField from "@/shared/InputField";
-import SubHeading from "@/constants/SubHeading";
+import InputField from "@/components/shared/InputField";
+import SubHeading from "@/components/constants/SubHeading";
 import Container from "@/components/Container";
 
 // Libs and Utils
@@ -24,6 +24,7 @@ import {useRouter} from 'next/navigation'
 import EmptyState from "@/components/EmptyState";
 import { alertUserHandler } from "@/helpers/alertUserHandler";
 import Loading from "../students/loading";
+import useLoggedInUserInfo from "@/hooks/useLoggedInUserInfo";
 
 export default function Teachers() {
   const [users, setUsers] = useState<allStudents | null>(null);
@@ -32,7 +33,7 @@ export default function Teachers() {
   const authData = useSession();
   const accessToken = authData?.data?.user?.accessToken!;
   const router = useRouter()
-
+  const {accessToken: myToken, loggedInUser, userRole} = useLoggedInUserInfo()
   //New student form data
   const [formData, setFormData] = useState({
     username: "",

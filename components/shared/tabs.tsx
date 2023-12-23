@@ -1,7 +1,7 @@
-import StudentGrade from "@/components/StudentGrade";
-import StudentHealth from "@/components/StudentHealth";
-import StudentProfile from "@/components/StudentProfile";
-import StudentTickets from "@/components/StudentTickets";
+import StudentGrade from "@/components/students/StudentGrade";
+import StudentHealth from "@/components/students/StudentHealth";
+import StudentProfile from "@/components/students/StudentProfile";
+import StudentTickets from "@/components/students/StudentTickets";
 
 export const studentTabs = [
   "Profile",

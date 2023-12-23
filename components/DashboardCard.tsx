@@ -1,7 +1,7 @@
 import React from "react";
 import CountUp from "react-countup";
 
-import SubHeading from "@/constants/SubHeading";
+import SubHeading from "@/components/constants/SubHeading";
 
 interface ICardWidth {
   width?: string;

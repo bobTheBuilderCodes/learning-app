@@ -1,6 +1,5 @@
 "use client";
 import DashboardCard from "@/components/DashboardCard";
-import IconButton from "@/shared/IconButton";
 import React, { useEffect } from "react";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -8,15 +7,19 @@ import { CategoryScale, LinearScale, Title } from "chart.js";
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 
-// Chart.register(CategoryScale, LinearScale, Title);
 
 import revenueData from "../../data/revenuedata.json";
 import sourceData from "../../data/sourcedata.json";
+import useStudentCrud from "@/hooks/useStudentCrud";
+import useLoggedInUserInfo from "@/hooks/useLoggedInUserInfo";
 
 const AdminDashboard = () => {
   useEffect(() => {
     Chart.register(CategoryScale, LinearScale, Title);
   }, []);
+
+  const studentCrud = useStudentCrud()
+  const {accessToken, loggedInUser, userRole} = useLoggedInUserInfo()
 
   return (
     <div className="flex w-full flex-wrap">
@@ -28,10 +31,10 @@ const AdminDashboard = () => {
             </div>
             <div className="px-4 sm:px-0">
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                Total Students
+                Total Students 
               </p>
               <h3 className="text-3xl font-semibold leading-7 text-gray-900">
-                1,604
+                1,604 {loggedInUser}
               </h3>
             </div>
           </DashboardCard>
@@ -64,7 +67,7 @@ const AdminDashboard = () => {
         </div>
         <div className="w-full flex">
           <div className="w-full">
-            <DashboardCard width="97%" height="46%">
+            <DashboardCard width="97%" height="auto">
               <Line
                 data={{
                   labels: revenueData.map((data) => data.label),
@@ -104,13 +107,14 @@ const AdminDashboard = () => {
                     },
                   },
                 }}
-               
+             style={{flex: 1}}
               />
             </DashboardCard>
           
             <DashboardCard width="97%" height="46%">
               <Bar
                 data={{
+                  
                   labels: sourceData.map((data) => data.label),
                   datasets: [
                     {
@@ -132,10 +136,11 @@ const AdminDashboard = () => {
                     },
                   },
                 }}
+             
               />
             </DashboardCard>
           </div>
-          {/* <DashboardCard height="520px">Chart</DashboardCard> */}
+        
         </div>
         1
       </div>
