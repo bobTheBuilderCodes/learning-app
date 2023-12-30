@@ -21,7 +21,7 @@ export const api = {
   deleteTicket: `${baseUrl}/ticket` ,
 
   // Auth
-  loginStudent: `${baseUrl}/auth/loginStudent`,
+  loginStudent: `${baseUrl}/auth/login`,
   createStudent: `${baseUrl}/auth/createStudent`,
 
   // Quotes
